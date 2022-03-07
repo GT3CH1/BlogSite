@@ -24,7 +24,10 @@
                 <br/>
                 &nbsp;
                 <span class="w3-left w3-large">
-                    @blogController.StripHtmlTags(blogController.GetContentOfPost(postId).Substring(0,500))...
+                    @{
+                        var postContent = blogController.GetContentOfPost(postId);
+                        @blogController.StripHtmlTags(postContent.Substring(0,postContent.Length))
+                    }
                 </span>
             </div>
         </div>

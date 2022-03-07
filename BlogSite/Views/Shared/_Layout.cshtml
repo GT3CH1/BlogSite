@@ -30,7 +30,8 @@
                     </li>
                     @* // For the love of god this needs to get changed. *@
                     @{
-                        
+                        var principal = User.IsInRole("Admin");
+                        @principal
                     }
                 </ul>
                 <partial name="_LoginPartial"/>

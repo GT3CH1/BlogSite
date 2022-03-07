@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Diagnostics;
+using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
 
@@ -17,6 +18,8 @@ public class BlogPostController : Controller
     /// <returns></returns>
     public int GetNumberOfPosts()
     {
+        if (Debugger.IsAttached)
+            return 1;
         int numberOfPosts = 0;
         using (var connection = new MySqlConnection(connectionString))
         {
@@ -40,12 +43,20 @@ public class BlogPostController : Controller
     /// <returns>The content in a post.</returns>
     public string GetContentOfPost(int postId)
     {
+        if (Debugger.IsAttached)
+            return "<h1>This is a debugged HTML tag in <i>italics</i></h1>";
         return GetDataFromRow("Content", postId);
     }
 
     public List<int> GetListOfPostIds()
     {
         List<int> postIds = new List<int>();
+        if (Debugger.IsAttached)
+        {
+            postIds.Add(0);
+            return postIds;
+        }
+
         using (var connection = new MySqlConnection(connectionString))
         {
             connection.Open();
@@ -65,6 +76,8 @@ public class BlogPostController : Controller
     /// <returns>The title of a post.</returns>
     public string GetTitleOfPost(int postId)
     {
+        if (Debugger.IsAttached)
+            return "This is a title.";
         return GetDataFromRow("Title", postId);
     }
 
@@ -96,7 +109,7 @@ public class BlogPostController : Controller
     
     public string StripHtmlTags(string html)
     {
-        var no_html_tags = Regex.Replace(html, "<.*?>", string.Empty);
-        return Regex.Replace(no_html_tags,"&.*?;",string.Empty);
+        var noHtmlTags = Regex.Replace(html, "<.*?>", string.Empty);
+        return Regex.Replace(noHtmlTags,"&.*?;",string.Empty);
     }
 }
