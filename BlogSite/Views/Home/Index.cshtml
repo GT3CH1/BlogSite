@@ -1,0 +1,32 @@
+﻿@using BlogSite.Data
+@model IndexModel
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+</div>
+@{
+    var blogController = new BlogPostController();
+    var postIdList = blogController.GetListOfPostIds();
+    postIdList.Reverse();
+    @for (int count = 0; count < postIdList.Count; count++)
+    {
+        var postId = postIdList[count];
+        <div class="w3-row">
+            <div class="w3-panel w3-card-2 w3-moble w3-white w3-padding-16 w3-left w3-col w3-cell-middle">
+                <a href="Posts/@postId">
+                    <span>
+                        @blogController.GetTitleOfPost(postId)
+                    </span>
+                </a>
+                <br/>
+                &nbsp;
+                <span class="w3-left w3-large">
+                    @blogController.StripHtmlTags(blogController.GetContentOfPost(postId).Substring(0,500))...
+                </span>
+            </div>
+        </div>
+    }
+}

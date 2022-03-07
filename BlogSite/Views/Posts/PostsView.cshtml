@@ -1,0 +1,28 @@
+﻿@using BlogSite.Data
+@model BlogSite.Views.Posts.PostsView
+@{
+    PostModel postRecord = ViewBag.Message;
+    ViewData["Title"] = postRecord.Title;
+    Layout = "_Layout";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<div>
+    <div class="w3-panel">
+        <br/>
+        <h2>@postRecord.Title</h2>
+        <br/>
+        <hr/>
+        <div class="w3-panel w3-mobile">
+            @Html.Raw(postRecord.Contents)
+        </div>
+    </div>
+</div>
+</body>
+</html>
