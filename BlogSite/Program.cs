@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.Extensions.Logging.Abstractions;
 
 var builder = WebApplication.CreateBuilder(args);
-ILogger _logger  = NullLogger.Instance;
+ILogger _logger = NullLogger.Instance;
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -32,14 +32,18 @@ using (var scope = app.Services.CreateScope())
     var roleStore = new RoleStore<IdentityRole>(dbContext); //Pass the instance of your DbContext here
     var userStore = new UserStore<IdentityUser>(dbContext);
     var roleManager = new RoleManager<IdentityRole>(roleStore, null, null, null, null);
-    if(roleManager.FindByNameAsync("Admin") == null)
+    if (roleManager.FindByNameAsync("Admin") == null)
         await roleManager.CreateAsync(new IdentityRole { Name = "Admin" });
-    var userManager = new UserManager<IdentityUser>(userStore,null,null,null,null,null,null,null,NullLogger<UserManager<IdentityUser>>.Instance);
+    var userManager = new UserManager<IdentityUser>(userStore, null, null, null, null, null, null, null,
+        NullLogger<UserManager<IdentityUser>>.Instance);
     var user = await userManager.FindByNameAsync("changeme@changeme.com".ToUpper());
-    var currRoles = userManager.GetRolesAsync(user).Result;
-    
-    if (!currRoles.Contains("Admin"))
-        await userManager.AddToRoleAsync(user, "Admin");
+    if (user != null)
+    {
+        var currRoles = userManager.GetRolesAsync(user).Result;
+
+        if (!currRoles.Contains("Admin"))
+            await userManager.AddToRoleAsync(user, "Admin");
+    }
 }
 
 // Configure the HTTP request pipeline.

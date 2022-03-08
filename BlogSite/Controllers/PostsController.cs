@@ -1,4 +1,5 @@
 ﻿using BlogSite.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlogSite.Controllers;
@@ -6,6 +7,7 @@ namespace BlogSite.Controllers;
 public class PostsController : Controller
 {
     // GET
+    [Authorize(Roles = "Admin")]
     public IActionResult Index()
     {
         return View();
