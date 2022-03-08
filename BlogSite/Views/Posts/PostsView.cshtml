@@ -1,5 +1,4 @@
-﻿@using BlogSite.Data
-@model BlogSite.Views.Posts.PostsView
+﻿@model BlogSite.Views.Posts.PostsView
 @{
     PostModel postRecord = ViewBag.Message;
     ViewData["Title"] = postRecord.Title;
@@ -10,7 +9,8 @@
 
 <html>
 <head>
-    <title></title>
+    <link rel="stylesheet" href="/css/prism.css" type="text/css"></link>
+    <script src="/js/prism.js"></script>
 </head>
 <body>
 <div>

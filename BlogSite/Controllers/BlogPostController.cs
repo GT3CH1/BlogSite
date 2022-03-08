@@ -1,12 +1,11 @@
 ﻿using System.Diagnostics;
 using System.Text.RegularExpressions;
 using BlogSite.Controllers;
-using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
 
 namespace BlogSite.Data;
 
-public class BlogPostController : Controller, IBlogPostController
+public class BlogPostController : IBlogPostController
 {
     private static string connectionString = "server=web.peasenet.com;" +
                                              "uid=BlogBot;" +
@@ -87,6 +86,25 @@ public class BlogPostController : Controller, IBlogPostController
     {
         var noHtmlTags = Regex.Replace(html, "<.*?>", string.Empty);
         return Regex.Replace(noHtmlTags, "&.*?;", string.Empty);
+    }
+
+    public bool CreatePost(string postTitle, string postContent)
+    {
+        using (var connection = new MySqlConnection(connectionString))
+        {
+            connection.Open();
+            var cmd = connection.CreateCommand();
+            cmd.CommandText = "INSERT INTO Posts (Title,Content) VALUES(@title,@content);";
+            cmd.Parameters.Add("@title", MySqlDbType.Text);
+            cmd.Parameters.Add("@content", MySqlDbType.Text);
+            // postTitle = postTitle.Replace(""","\\\"");
+            // postContent = postContent.Replace("\"","\\\"");
+            cmd.Parameters["@title"].Value = postTitle;
+            cmd.Parameters["@content"].Value = postContent;
+            var res = cmd.ExecuteNonQuery();
+        }
+
+        return true;
     }
 
     /// <summary>

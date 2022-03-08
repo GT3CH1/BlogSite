@@ -1,4 +1,5 @@
-﻿using BlogSite.Models;
+﻿using BlogSite.Data;
+using BlogSite.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,9 +15,19 @@ public class PostsController : Controller, IPostController
     }
 
     [Authorize(Roles = "Admin")]
+    [HttpGet]
     public IActionResult CreatePost()
     {
         return View();
+    }
+
+    [Authorize(Roles = "Admin")]
+    [HttpPost]
+    public IActionResult CreatePost(string blogtitle, string blogpost)
+    {
+        var blogController = new BlogPostController();
+        blogController.CreatePost(blogtitle, blogpost);
+        return Index();
     }
 
     [Route("/Posts/View/{postId}")]

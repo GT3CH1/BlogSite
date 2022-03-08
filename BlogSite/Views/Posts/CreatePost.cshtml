@@ -9,6 +9,8 @@
 <html>
 <head>
     <title></title>
+    <link rel="stylesheet" href="/css/prism.css" type="text/css"></link>
+    <script src="/js/prism.js"></script>
     <script src="https://cdn.tiny.cloud/1/9iriah77b698mbblw03a4u3h3v2bby42y5r7w49r6byrwjqg/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <script>
     			tinymce.init({
@@ -23,6 +25,7 @@
                     paste_enable_default_filters: false,
     				default_link_target: "_blank",
     				browser_spellcheck : true,
+    				convert_urls: false,
                     images_upload_url: '/Image/UploadImage',
                     images_upload_handler: function (blobInfo, success, failure) {
 						// jsonToPost={'fileData':blobInfo.base64()};
@@ -63,12 +66,15 @@
 </head>
 <body>
 <div class="w3-container">
-    <div class="w3-row w3-padding-small">
-        <input type="text" name="posttitle" style="width:100%"></input>
-    </div>
-    <div class="w3-row w3-padding-small">
-        <textarea name="blogpost" style="width:100%;"></textarea>
-    </div>
+    <form method="POST">
+        <div class="w3-row w3-padding-small">
+            <input type="text" name="blogtitle" style="width:100%"></input>
+        </div>
+        <div class="w3-row w3-padding-small">
+            <textarea name="blogpost" style="width:100%;"></textarea>
+        </div>
+        &nbsp;<input type="submit" class="w3-button w3-blue "></input>
+    </form>
 </div>
 </body>
 </html>

@@ -7,4 +7,5 @@ public interface IBlogPostController
     public List<int> GetListOfPostIds();
     public string GetTitleOfPost(int postId);
     public string StripHtmlTags(string html);
+    public bool CreatePost(string postTitle, string postContent);
 }
