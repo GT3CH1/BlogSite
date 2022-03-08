@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BlogSite.Controllers;
 
-public class PostsController : Controller
+public class PostsController : Controller, IPostController
 {
     // GET
     [Authorize(Roles = "Admin")]
@@ -13,7 +13,13 @@ public class PostsController : Controller
         return View();
     }
 
-    [Route("/Posts/{postId}")]
+    [Authorize(Roles = "Admin")]
+    public IActionResult CreatePost()
+    {
+        return View();
+    }
+    
+    [Route("/Posts/View/{postId}")]
     public IActionResult PostsView(int postId)
     {
         PostModel post = new PostModel(postId);

@@ -1,11 +1,12 @@
 ﻿using System.Diagnostics;
 using System.Text.RegularExpressions;
+using BlogSite.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
 
 namespace BlogSite.Data;
 
-public class BlogPostController : Controller
+public class BlogPostController : Controller, IBlogPostController
 {
     private static string connectionString = "Data Source=web.peasenet.com;" +
                                              "User ID=BlogBot;" +
@@ -80,7 +81,13 @@ public class BlogPostController : Controller
             return "This is a title.";
         return GetDataFromRow("Title", postId);
     }
-
+    
+    public string StripHtmlTags(string html)
+    {
+        var noHtmlTags = Regex.Replace(html, "<.*?>", string.Empty);
+        return Regex.Replace(noHtmlTags,"&.*?;",string.Empty);
+    }
+    
     /// <summary>
     /// Gets data from the given row
     /// </summary>
@@ -106,10 +113,5 @@ public class BlogPostController : Controller
 
         return data;
     }
-    
-    public string StripHtmlTags(string html)
-    {
-        var noHtmlTags = Regex.Replace(html, "<.*?>", string.Empty);
-        return Regex.Replace(noHtmlTags,"&.*?;",string.Empty);
-    }
+
 }

@@ -4,7 +4,7 @@ using BlogSite.Models;
 
 namespace BlogSite.Controllers;
 
-public class HomeController : Controller
+public class HomeController : Controller, IHomeController
 {
     private readonly ILogger<HomeController> _logger;
 
