@@ -8,9 +8,9 @@ namespace BlogSite.Data;
 
 public class BlogPostController : Controller, IBlogPostController
 {
-    private static string connectionString = "Data Source=web.peasenet.com;" +
-                                             "User ID=BlogBot;" +
-                                             "Password=yg61ueI7Py46tekp;" +
+    private static string connectionString = "server=web.peasenet.com;" +
+                                             "uid=BlogBot;" +
+                                             "password=yg61ueI7Py46tekp;" +
                                              "database=Blog";
 
     /// <summary>
@@ -67,6 +67,7 @@ public class BlogPostController : Controller, IBlogPostController
                 while (reader.Read())
                     postIds.Add(int.Parse(reader["ID"].ToString()));
         }
+
         return postIds;
     }
 
@@ -81,13 +82,13 @@ public class BlogPostController : Controller, IBlogPostController
             return "This is a title.";
         return GetDataFromRow("Title", postId);
     }
-    
+
     public string StripHtmlTags(string html)
     {
         var noHtmlTags = Regex.Replace(html, "<.*?>", string.Empty);
-        return Regex.Replace(noHtmlTags,"&.*?;",string.Empty);
+        return Regex.Replace(noHtmlTags, "&.*?;", string.Empty);
     }
-    
+
     /// <summary>
     /// Gets data from the given row
     /// </summary>
@@ -113,5 +114,4 @@ public class BlogPostController : Controller, IBlogPostController
 
         return data;
     }
-
 }
