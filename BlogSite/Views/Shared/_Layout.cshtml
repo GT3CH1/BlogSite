@@ -31,7 +31,12 @@
                     @* // For the love of god this needs to get changed. *@
                     @{
                         var principal = User.IsInRole("Admin");
-                        @principal
+                        if (principal)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Posts" asp-action="Index">Posts</a>
+                            </li>
+                        }
                     }
                 </ul>
                 <partial name="_LoginPartial"/>
