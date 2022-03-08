@@ -2,7 +2,6 @@
 @{
     Layout = "_Layout";
     ViewData["Title"] = "Create a post";
-
 }
 
 <!DOCTYPE html>
@@ -24,7 +23,7 @@
                     paste_enable_default_filters: false,
     				default_link_target: "_blank",
     				browser_spellcheck : true,
-                    images_upload_url: '/Posts/UploadImage',
+                    images_upload_url: '/Image/UploadImage',
                     images_upload_handler: function (blobInfo, success, failure) {
 						// jsonToPost={'fileData':blobInfo.base64()};
 						// $.ajax({
@@ -37,7 +36,7 @@
                         var xhr, formData;
                         xhr = new XMLHttpRequest();
                         xhr.withCredentials = false;
-                        xhr.open('POST', '/Posts/UploadImage');
+                        xhr.open('POST', '/Image/UploadImage');
                         xhr.onload = function() {
                             var json;
                             if (xhr.status != 200) {
