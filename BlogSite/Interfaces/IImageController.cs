@@ -5,5 +5,5 @@ namespace BlogSite.Controllers;
 public interface IImageController
 {
     public IActionResult Index();
-    public string GetImage(string imageName);
+    public IActionResult GetImage(string imageName);
 }
