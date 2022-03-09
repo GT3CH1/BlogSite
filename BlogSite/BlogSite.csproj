@@ -23,7 +23,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Media"/>
+      <Folder Include="Media" />
     </ItemGroup>
 
 </Project>
