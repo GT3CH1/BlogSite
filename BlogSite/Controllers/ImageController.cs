@@ -31,7 +31,6 @@ public class ImageController : Controller, IImageController
     [Authorize(Roles = "Admin")]
     public string UploadImage(string fileData, string fileName)
     {
-        // FileObject fo = JsonConvert.DeserializeObject<FileObject>(fileObject);
         var photoService = new PhotoService();
         string filePath;
         var res = photoService.Upload(fileData, fileName, out filePath);
