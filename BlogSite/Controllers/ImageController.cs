@@ -1,3 +1,4 @@
+using BlogSite.Models;
 using BlogSite.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +19,9 @@ public class ImageController : Controller, IImageController
     {
         var currdir = Environment.CurrentDirectory;
         var path = Path.Combine($"{currdir}\\Media", imageName);
-        var image = System.IO.File.ReadAllBytes(path);
+        byte[] image = {0};
+        if(System.IO.File.Exists(path))
+            image = System.IO.File.ReadAllBytes(path);
         return File(image, "image/jpeg");
     }
 
@@ -34,23 +37,17 @@ public class ImageController : Controller, IImageController
         var res = photoService.Upload(fileData, fileName, out filePath);
         if (res)
         {
-            return JsonConvert.SerializeObject(new Location
+            return JsonConvert.SerializeObject(new ImageLocation
             {
                 location = filePath,
             });
         }
         else
         {
-            return JsonConvert.SerializeObject(new Location
+            return JsonConvert.SerializeObject(new ImageLocation
             {
                 location = "",
             });
         }
-    }
-
-    public class Location
-    {
-        [JsonProperty(PropertyName = "location")]
-        public string location = "/change/me";
     }
 }
