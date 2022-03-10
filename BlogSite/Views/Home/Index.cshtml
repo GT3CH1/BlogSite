@@ -8,25 +8,24 @@
     <h1 class="display-4">Welcome</h1>
 </div>
 @{
-    var blogController = new BlogPostController();
-    var postIdList = blogController.GetListOfPostIds();
+    var postIdList = PostDatabaseModel.GetPostIdList();
     postIdList.Reverse();
     @for (int count = 0; count < postIdList.Count; count++)
     {
         var postId = postIdList[count];
+        var post = PostDatabaseModel.GetPostById(postId);
         <div class="w3-row">
             <div class="w3-panel w3-card-2 w3-moble w3-white w3-padding-16 w3-left w3-col w3-cell-middle">
                 <a href="Posts/View/@postId">
                     <span>
-                        @blogController.GetTitleOfPost(postId)
+                        @post.Title
                     </span>
                 </a>
                 <br/>
                 &nbsp;
                 <span class="w3-left w3-large">
                     @{
-                        var postContent = blogController.GetContentOfPost(postId);
-                        @blogController.StripHtmlTags(postContent.Substring(0, Math.Min(postContent.Length, 500)))
+                        @PostDatabaseModel.StripHtmlTags(post.Content.Substring(0, Math.Min(post.Content.Length, 500)))
                     }
                 </span>
             </div>

@@ -23,17 +23,17 @@ public class PostsController : Controller, IPostController
 
     [Authorize(Roles = "Admin")]
     [HttpPost]
-    public IActionResult CreatePost(string blogtitle, string blogpost)
+    public IActionResult CreatePost(string title, string content)
     {
-        var blogController = new BlogPostController();
-        blogController.CreatePost(blogtitle, blogpost);
+        var postModel = new PostModel(title, content);
+        PostDatabaseModel.AddPost(postModel);
         return Index();
     }
 
     [Route("/Posts/View/{postId}")]
     public IActionResult PostsView(int postId)
     {
-        PostModel post = new PostModel(postId);
+        PostModel post = PostDatabaseModel.GetPostById(postId);
         ViewBag.Message = post;
         return View();
     }

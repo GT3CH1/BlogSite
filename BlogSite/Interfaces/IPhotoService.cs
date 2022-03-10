@@ -32,6 +32,11 @@ public interface IPhotoService
     /// <returns></returns>
     public string GetNewImageName(string filename);
 
+    /// <summary>
+    /// Gets a base64 image representation from the given imageName
+    /// </summary>
+    /// <param name="imageName"></param>
+    /// <returns></returns>
     public string GetImage(string imageName);
 
     public static string RandomString()
