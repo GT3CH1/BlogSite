@@ -1,8 +1,28 @@
 ﻿@model dynamic
 
 @{
-    
     Layout = "_Layout";
 }
 
-<h2>title</h2>
+<table class="w3-table-all">
+    <tr>
+        <th>Post Name</th>
+        <th>ID</th>
+        <th>Actions</th>
+    </tr>
+    @{
+        var blogController = new BlogDatabaseModel();
+        var postIdList = blogController.GetListOfPostIds();
+        postIdList.Reverse();
+        @for (int count = 0; count < postIdList.Count; count++)
+        {
+            var postId = postIdList[count];
+            <tr>
+                <td>@blogController.GetTitleOfPost(postId)</td>
+                <td>@postId</td>
+                <td><a href="/Posts/EditPost?postId=@postId">Edit</a>&nbsp;|&nbsp;<a href="Posts/DeletePost?postId=@postId">Delete</a></td>
+            </tr>
+        }
+    }
+</table>
+
