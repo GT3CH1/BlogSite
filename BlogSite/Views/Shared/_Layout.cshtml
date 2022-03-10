@@ -25,9 +25,9 @@
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                    </li>
+                    @* <li class="nav-item"> *@
+                    @*     <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a> *@
+                    @* </li> *@
                     @* // For the love of god this needs to get changed. *@
                     @{
                         var principal = User.IsInRole("Admin");
@@ -35,6 +35,9 @@
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Posts" asp-action="Index">Posts</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Posts" asp-action="CreatePost">Create Post</a>
                             </li>
                         }
                     }
