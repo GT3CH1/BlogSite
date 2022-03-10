@@ -11,16 +11,18 @@
         <th>Actions</th>
     </tr>
     @{
-        var blogController = new BlogDatabaseModel();
-        var postIdList = blogController.GetListOfPostIds();
+        var blogController = new PostDatabaseModel();
+        var postIdList = PostDatabaseModel.GetPostIdList();
         postIdList.Reverse();
-        @for (int count = 0; count < postIdList.Count; count++)
+        var enumerator = postIdList.GetEnumerator();
+        @while(enumerator.MoveNext())
         {
-            var postId = postIdList[count];
+            var postId = enumerator.Current;
+            var post = PostDatabaseModel.GetPostById(postId);
             <tr>
-                <td>@blogController.GetTitleOfPost(postId)</td>
-                <td>@postId</td>
-                <td><a href="/Posts/EditPost?postId=@postId">Edit</a>&nbsp;|&nbsp;<a href="Posts/DeletePost?postId=@postId">Delete</a></td>
+                <td>@post.Title</td>
+                <td>@post.Id</td>
+                <td><a href="/Posts/Edit/@post.Id">Edit</a>&nbsp;|&nbsp;<a href="Posts/Delete/@post.Id">Delete</a></td>
             </tr>
         }
     }

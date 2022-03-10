@@ -10,7 +10,7 @@
     }
     @if (ViewBag.Message != null)
     {
-        content = ViewBag.Message.Contents;
+        content = ViewBag.Message.Content;
     }
 }
 
@@ -78,7 +78,7 @@
 <div class="w3-container">
     <form method="POST">
         <div class="w3-row w3-padding-small">
-            <input type="text" name="blogtitle" style="width:100%" value="@title">
+            <input type="text" name="title" style="width:100%" value="@title">
         </div>
         <div class="w3-row w3-padding-small">
             <textarea name="content" style="width:100%;">

@@ -24,7 +24,7 @@ public class PostDatabaseModel
     /// </summary>
     private static readonly string PostsTableCommand = "CREATE TABLE IF NOT EXISTS " +
                                                        "Posts (Title TEXT NOT NULL, Content TEXT NOT NULL, " +
-                                                       "ID INTEGER AUTO_INCREMENT DEFAULT 0, PRIMARY KEY (ID))";
+                                                       "ID INTEGER AUTOINCREMENT DEFAULT 0, PRIMARY KEY (ID))";
 
     /// <summary>
     /// Creates a new Database model for containing posts. If the filePath does not exist,
@@ -75,7 +75,7 @@ public class PostDatabaseModel
     /// </summary>
     /// <param name="post">The post to add.</param>
     /// <exception cref="ArgumentException">Thrown when the title or contents of a post are empty.</exception>
-    public static void AddPost(PostModel post)
+    public static void CreatePost(PostModel post)
     {
         if (post.Content == string.Empty)
             throw new ArgumentException("The contents of a post cannot be empty!");
@@ -105,7 +105,7 @@ public class PostDatabaseModel
     /// </summary>
     /// <param name="post">The post containing the updated content/title</param>
     /// <exception cref="ArgumentException">thrown when title, content, or id is not set.</exception>
-    public void EditPost(PostModel post)
+    public static void EditPost(PostModel post)
     {
         if (post.Title == string.Empty)
             throw new ArgumentException("The title cannot be empty.");
@@ -137,7 +137,7 @@ public class PostDatabaseModel
     /// </summary>
     /// <param name="post">The post to delete.</param>
     /// <exception cref="ArgumentException">Thrown when the Id is not set.</exception>
-    public void DeletePost(PostModel post)
+    public static void DeletePost(PostModel post)
     {
         if (post.Id == -1)
             throw new ArgumentException("The post id has to be set.");

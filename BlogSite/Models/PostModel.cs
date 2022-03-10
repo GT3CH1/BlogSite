@@ -25,4 +25,8 @@ public class PostModel
         Title = title;
         Content = content;
     }
+
+    public void Delete() => PostDatabaseModel.DeletePost(this);
+    public void Update() => PostDatabaseModel.EditPost(this);
+    public void Create() => PostDatabaseModel.CreatePost(this);
 }
