@@ -25,15 +25,15 @@ public class PostsController : Controller, IPostController
     [HttpPost]
     public IActionResult CreatePost(string title, string content)
     {
-        var blogController = new BlogPostController();
-        blogController.CreatePost(title, content);
+        var postModel = new PostModel(title, content);
+        PostDatabaseModel.AddPost(postModel);
         return Index();
     }
 
     [Route("/Posts/View/{postId}")]
     public IActionResult PostsView(int postId)
     {
-        PostModel post = new PostModel(postId);
+        PostModel post = PostDatabaseModel.GetPostById(postId);
         ViewBag.Message = post;
         return View();
     }
