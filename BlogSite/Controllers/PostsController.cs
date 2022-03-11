@@ -27,16 +27,30 @@ public class PostsController : Controller, IPostController
     public IActionResult CreatePost(string title, string content)
     {
         var postModel = new PostModel(title, content);
-        postModel.Create();
-        return View("Index");
+        try
+        {
+            postModel.Create();
+            return View("Index");
+        }
+        catch (ArgumentException)
+        {
+            return View("Error");
+        }
     }
 
     [Route("/Posts/View/{postId}")]
     public IActionResult PostsView(int postId)
     {
-        var post = PostDatabaseModel.GetPostById(postId);
-        ViewBag.Message = post;
-        return View();
+        try
+        {
+            var post = PostDatabaseModel.GetPostById(postId);
+            ViewBag.Message = post;
+            return View();
+        }
+        catch (ArgumentException)
+        {
+            return View("Error");
+        }
     }
 
 
@@ -45,9 +59,16 @@ public class PostsController : Controller, IPostController
     [HttpGet]
     public IActionResult EditPost(int postId)
     {
-        var post = PostDatabaseModel.GetPostById(postId);
-        ViewBag.Message = post;
-        return View();
+        try
+        {
+            var post = PostDatabaseModel.GetPostById(postId);
+            ViewBag.Message = post;
+            return View();
+        }
+        catch (ArgumentException)
+        {
+            return View("Error");
+        }
     }
 
     [Route("/Posts/Edit/{postId}")]
@@ -56,16 +77,30 @@ public class PostsController : Controller, IPostController
     public IActionResult EditPost(string title, string content, int postId)
     {
         var post = new PostModel(title, content, postId);
-        post.Update();
-        return PostsView(postId);
+        try
+        {
+            post.Update();
+            return RedirectToAction("PostsView", new { postId = postId });
+        }
+        catch (ArgumentException)
+        {
+            return View("Error");
+        }
     }
 
     [Route("/Posts/Delete/{postId}")]
     [Authorize(Roles = "Admin")]
     public IActionResult DeletePost(int postId)
     {
-        var post = PostDatabaseModel.GetPostById(postId);
-        post.Delete();
-        return View("Index");
+        try
+        {
+            var post = PostDatabaseModel.GetPostById(postId);
+            post.Delete();
+            return View("Index");
+        }
+        catch (ArgumentException)
+        {
+            return View("Error");
+        }
     }
 }
