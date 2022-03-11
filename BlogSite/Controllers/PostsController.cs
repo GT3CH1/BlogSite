@@ -29,8 +29,8 @@ public class PostsController : Controller, IPostController
         var postModel = new PostModel(title, content);
         try
         {
-            postModel.Create();
-            return View("Index");
+            int newPostId = postModel.Create();
+            return RedirectToAction("PostsView", new { postId = newPostId });
         }
         catch (ArgumentException)
         {

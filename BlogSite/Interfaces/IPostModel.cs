@@ -30,5 +30,5 @@ public interface IPostModel
     /// <summary>
     /// Creates this post in the database.
     /// </summary>
-    public void Create();
+    public int Create();
 }

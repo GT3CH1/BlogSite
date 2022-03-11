@@ -77,8 +77,9 @@ public class PostDatabaseModel
     /// </summary>
     /// <param name="post">The post to add.</param>
     /// <exception cref="ArgumentException">Thrown when the title or contents of a post are empty.</exception>
-    public static void CreatePost(PostModel post)
+    public static int CreatePost(PostModel post)
     {
+        int newId = -1;
         if (post.Content == string.Empty)
             throw new ArgumentException("The contents of a post cannot be empty!");
         if (post.Title == string.Empty)
@@ -90,16 +91,18 @@ public class PostDatabaseModel
             {
                 connection.Open();
                 var cmd = connection.CreateCommand();
-                cmd.CommandText = "INSERT INTO Posts (Title,Content) VALUES(@title,@content);";
+                cmd.CommandText = "INSERT INTO Posts (Title,Content) VALUES(@title,@content);" +
+                                  "SELECT last_insert_rowid();";
                 // postTitle = postTitle.Replace(""","\\\"");
                 // postContent = postContent.Replace("\"","\\\"");
                 cmd.Parameters.AddWithValue("@title", post.Title);
                 cmd.Parameters.AddWithValue("@content", post.Content);
-                cmd.ExecuteNonQuery();
+                newId = Convert.ToInt32(cmd.ExecuteScalar());
             }
 
             scope.Complete();
         }
+        return newId;
     }
 
     /// <summary>
