@@ -9,12 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 ILogger _logger = NullLogger.Instance;
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-var postsConnectionString = builder.Configuration.GetConnectionString("PostDatabase");
-PostDatabaseModel model = new PostDatabaseModel(postsConnectionString, "posts.db");
+new PostDatabaseModel(connectionString, "app.db");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(connectionString));
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite(postsConnectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddAuthorization(options =>
 {
