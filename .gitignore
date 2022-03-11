@@ -350,3 +350,5 @@ MigrationBackup/
 .ionide/
 **/.idea
 **/Media
+**/*.db-wal
+**/*.db-shm
