@@ -11,20 +11,22 @@ public class PostDatabaseModel
 {
     /// <summary>
     /// The connection string to use for connecting to the post database.
+    /// Default is "DataSource=posts.db;Cache=Shared"
     /// </summary>
-    public static string ConnectionString { get; private set; }
+    public static string ConnectionString { get; private set; } = "DataSource=posts.db;Cache=Shared";
 
     /// <summary>
     /// The file path of the post database.
+    /// Default is "posts.db"
     /// </summary>
-    public static string FilePath { get; private set; }
+    public static string FilePath { get; private set; } = "posts.db";
 
     /// <summary>
     /// The string used to create the post table.
     /// </summary>
     private static readonly string PostsTableCommand = "CREATE TABLE IF NOT EXISTS " +
                                                        "Posts (Title TEXT NOT NULL, Content TEXT NOT NULL, " +
-                                                       "ID INTEGER AUTOINCREMENT DEFAULT 0, PRIMARY KEY (ID))";
+                                                       "ID INTEGER PRIMARY KEY NOT NULL)";
 
     /// <summary>
     /// Creates a new Database model for containing posts. If the filePath does not exist,
@@ -113,7 +115,7 @@ public class PostDatabaseModel
             throw new ArgumentException("The content cannot be empty.");
         if (post.Id == -1)
             throw new ArgumentException("The post id cannot be invalid.");
-
+        
         using (var scope = new TransactionScope())
         {
             using (var connection = new SQLiteConnection(ConnectionString))
@@ -175,15 +177,21 @@ public class PostDatabaseModel
             {
                 while (reader.Read())
                 {
+                    int postId = -1;
+                    if (reader["Title"] == null || reader["Content"] == null || reader["ID"] == null)
+                        throw new InvalidOperationException("Title, content, or ID is null.");
                     var postTitle = reader["Title"].ToString();
                     var postContent = reader["Content"].ToString();
-                    var postId = int.Parse(reader["ID"].ToString());
-                    return new PostModel(postTitle, postContent, postId);
+                    var output = reader["ID"].ToString();
+                    int.TryParse(output, out postId);
+                    if (postTitle != null && postContent != null && postId > 0)
+                        return new PostModel(postTitle, postContent, postId);
+                    throw new InvalidOperationException("Found invalid post!");
                 }
             }
         }
 
-        return new PostModel();
+        throw new ArgumentException("Invalid post id");
     }
 
     /// <summary>
@@ -210,15 +218,15 @@ public class PostDatabaseModel
             {
                 while (reader.Read())
                 {
+                    int postId;
                     if (!reader.HasRows)
                         continue;
                     var output = reader["ID"].ToString();
-                    int postId = int.Parse(reader["ID"].ToString());
+                    int.TryParse(output, out postId);
                     postIds.Add(postId);
                 }
             }
         }
-
         return postIds;
     }
 
