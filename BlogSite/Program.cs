@@ -1,8 +1,8 @@
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using BlogSite.Data;
 using BlogSite.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging.Abstractions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,18 +30,27 @@ using (var scope = app.Services.CreateScope())
     var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     var roleStore = new RoleStore<IdentityRole>(dbContext); //Pass the instance of your DbContext here
     var userStore = new UserStore<IdentityUser>(dbContext);
-    var roleManager = new RoleManager<IdentityRole>(roleStore, null, null, null, null);
-    if (roleManager.FindByNameAsync("Admin") == null)
+    var roleManager = new RoleManager<IdentityRole>(roleStore, null, new UpperInvariantLookupNormalizer(), null, null);
+    if (await roleManager.FindByNameAsync("Admin") == null)
         await roleManager.CreateAsync(new IdentityRole { Name = "Admin" });
-    var userManager = new UserManager<IdentityUser>(userStore, null, null, null, null, null, null, null,
-        NullLogger<UserManager<IdentityUser>>.Instance);
-    var user = await userManager.FindByNameAsync("changeme@changeme.com".ToUpper());
-    if (user != null)
-    {
-        var currRoles = userManager.GetRolesAsync(user).Result;
 
-        if (!currRoles.Contains("Admin"))
-            await userManager.AddToRoleAsync(user, "Admin");
+    var userManager = new UserManager<IdentityUser>(userStore, null, null, null, null,
+        new UpperInvariantLookupNormalizer(), null, null,
+        NullLogger<UserManager<IdentityUser>>.Instance);
+    var userList = builder.Configuration.GetSection("Administrators").GetChildren();
+    foreach (var adminUser in userList)
+    {
+        var user = await userManager.FindByEmailAsync(adminUser.Value.ToUpper());
+        if (user != null)
+        {
+            var currRoles = await userManager.GetRolesAsync(user);
+            if (!currRoles.Contains("Admin"))
+            {
+                await userManager.AddToRoleAsync(user, "Admin");
+            }
+
+            await userManager.UpdateAsync(user);
+        }
     }
 }
 
