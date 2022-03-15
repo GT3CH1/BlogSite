@@ -39,7 +39,7 @@ public class PostDatabaseModel
         ConnectionString = connectionString;
         FilePath = filePath;
 
-        CreateDatabase();
+        //CreateDatabase();
     }
 
     /// <summary>
