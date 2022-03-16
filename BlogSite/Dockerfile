@@ -9,12 +9,19 @@ COPY ["BlogSite/BlogSite.csproj", "BlogSite/"]
 RUN dotnet restore "BlogSite/BlogSite.csproj"
 COPY . .
 WORKDIR "/src/BlogSite"
+RUN dotnet tool install --global dotnet-ef
+ENV PATH $PATH:/root/.dotnet/tools
+RUN dotnet-ef --version
+RUN dotnet ef database update
 RUN dotnet build "BlogSite.csproj" -c Release -o /app/build
 
 FROM build AS publish
 RUN dotnet publish "BlogSite.csproj" -c Release -o /app/publish
-
+#RUN apt install wget
+#RUN wget https://dot.net/v1/dotnet-install.sh
+#RUN chmod +x ./dotnet-install.sh ; ./dotnet-install.sh -c Current
 FROM base AS final
 WORKDIR /app
+
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "BlogSite.dll"]

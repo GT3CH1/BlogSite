@@ -1,12 +1,7 @@
-﻿@using BlogSite.Data
-@model IndexModel
+﻿@model IndexModel
 @{
     ViewData["Title"] = "Home Page";
 }
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-</div>
 @{
     var postIdList = PostDatabaseModel.GetPostIdList();
     postIdList.Reverse();
@@ -14,16 +9,17 @@
     {
         var postId = postIdList[count];
         var post = PostDatabaseModel.GetPostById(postId);
-        <div class="w3-row">
+        <div class="w3-row w3-margin">
             <div class="w3-panel w3-card-2 w3-moble w3-white w3-padding-16 w3-left w3-col w3-cell-middle">
-                <a href="Posts/View/@postId">
+                <a href="Posts/View/@postId" class="no-ul w3-text-black w3-large w3-button w3-hover-blue-gray">
                     <span>
                         @post.Title
                     </span>
                 </a>
+                <hr/>
                 <br/>
                 &nbsp;
-                <span class="w3-left w3-large">
+                <span class="w3-left w3-medium w3-text-gray">
                     @{
                         @PostDatabaseModel.StripHtmlTags(post.Content.Substring(0, Math.Min(post.Content.Length, 500)))
                     }
