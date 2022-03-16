@@ -20,7 +20,7 @@
 <head>
     <title></title>
     <link rel="stylesheet" href="/css/prism.css" type="text/css"></link>
-    <script src="/js/prism.js"></script>
+    <script src="/js/prism.js" data-manual></script>
     <script src="https://cdn.tiny.cloud/1/9iriah77b698mbblw03a4u3h3v2bby42y5r7w49r6byrwjqg/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <script>
     			tinymce.init({
@@ -37,6 +37,27 @@
     				browser_spellcheck : true,
     				convert_urls: false,
                     images_upload_url: '/Image/UploadImage',
+                    codesample_global_prismjs: true,
+					  codesample_languages: [
+                        { text: 'HTML/XML', value: 'markup' },
+                        { text: 'JavaScript', value: 'javascript' },
+                        { text: 'CSS', value: 'css' },
+                        { text: 'PHP', value: 'php' },
+                        { text: 'Bash', value: 'bash' },
+                        { text: 'Python', value: 'python' },
+                        { text: 'Java', value: 'java' },
+                        { text: 'C', value: 'c' },
+                        { text: 'C#', value: 'csharp' },
+                        { text: 'C++', value: 'cpp' },
+                        { text: 'SQL', value: 'sql' },
+                        { text: 'LaTeX', value: 'latex'},
+                        { text: 'Markdown', value: 'markdown' },
+                        { text: 'XML', value: 'xml' },
+                        { text: 'Powershell', value: 'powershell' },
+                        { text: 'YAML', value: 'yaml' },
+                        { text: 'Dockerfile', value: 'dockerfile' },
+                        { text: 'JSON', value: 'json' }
+                      ],
                     images_upload_handler: function (blobInfo, success, failure) {
 						// jsonToPost={'fileData':blobInfo.base64()};
 						// $.ajax({
