@@ -8,6 +8,14 @@ public class ApplicationDbContext : IdentityDbContext
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
-        Database.Migrate();
+        //if(Database.EnsureCreated())
+        try
+        {
+            Database.Migrate();
+        }
+        catch
+        {
+            Console.Error.WriteLine("Failed to migrate database");
+        }
     }
 }

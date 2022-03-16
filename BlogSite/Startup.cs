@@ -1,6 +1,7 @@
 using BlogSite.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging.Abstractions;
 
 namespace BlogSite;
@@ -13,7 +14,7 @@ public class Startup
     /// <param name="store"></param>
     public static async void CreateAdminRoles(RoleManager<IdentityRole> store)
     {
-        if (!await AdminRoleExists(store)) 
+        if (!await AdminRoleExists(store))
             await store.CreateAsync(new IdentityRole { Name = "Admin" });
     }
 
@@ -67,5 +68,16 @@ public class Startup
         var roleManager1 =
             new RoleManager<IdentityRole>(roleStore, null, new UpperInvariantLookupNormalizer(), null, null);
         return roleManager1;
+    }
+
+    public static void SetupDatabase(WebApplicationBuilder webApplicationBuilder, string connectionString)
+    {
+        webApplicationBuilder.Services
+            .AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            .AddRoles<IdentityRole>()
+            .AddEntityFrameworkStores<ApplicationDbContext>();
+        
+        webApplicationBuilder.Services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlite(connectionString));
     }
 }

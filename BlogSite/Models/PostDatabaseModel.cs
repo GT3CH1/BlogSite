@@ -13,7 +13,7 @@ public class PostDatabaseModel
     /// The connection string to use for connecting to the post database.
     /// Default is "DataSource=posts.db;Cache=Shared"
     /// </summary>
-    public static string ConnectionString { get; private set; } = "DataSource=posts.db;Cache=Shared";
+    public static string ConnectionString { get; set; } = "DataSource=posts.db;Cache=Shared";
 
     /// <summary>
     /// The file path of the post database.
@@ -50,26 +50,6 @@ public class PostDatabaseModel
     {
         if (ConnectionString == string.Empty) throw new ArgumentException("ConnectionString cannot be empty");
         if (FilePath == string.Empty) throw new ArgumentException("FilePath cannot be empty.");
-    }
-
-    /// <summary>
-    /// Creates an empty post database.
-    /// </summary>
-    public static void CreateDatabase()
-    {
-        using (TransactionScope scope = new TransactionScope())
-        {
-            if (!File.Exists(FilePath))
-                SQLiteConnection.CreateFile(FilePath);
-            using (var conn = new SQLiteConnection(ConnectionString))
-            {
-                conn.Open();
-                SQLiteCommand cmd = new SQLiteCommand(PostsTableCommand, conn);
-                cmd.ExecuteNonQuery();
-            }
-
-            scope.Complete();
-        }
     }
 
     /// <summary>

@@ -10,24 +10,19 @@ var builder = WebApplication.CreateBuilder(args);
 ILogger logger = NullLogger.Instance;
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 new PostDatabaseModel(connectionString, "app.db");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite(connectionString));
+Startup.SetupDatabase(builder, connectionString);
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("RequireAdministratorRole", policy => policy.RequireRole("Administrator"));
 });
-builder.Services
-    .AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddLogging();
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
-    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    var dbContext = scope.ServiceProvider.GetService<ApplicationDbContext>();
     Startup.CreateAdminRoles(Startup.GetRoleManager(dbContext));
     var userList = builder.Configuration.GetSection("Administrators").GetChildren();
     var adminUsers = new List<string>();
