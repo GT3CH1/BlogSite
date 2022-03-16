@@ -20,4 +20,5 @@ FROM base AS final
 WORKDIR /app
 
 COPY --from=publish /app/publish .
+RUN mkdir Media
 ENTRYPOINT ["dotnet", "BlogSite.dll"]
