@@ -15,4 +15,4 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag gcpease/blogsite:$(date +%s)
+      run: docker build . --file BlogSite/Dockerfile --tag gcpease/blogsite:$(date +%s)
