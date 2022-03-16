@@ -1,3 +1,4 @@
+using BlogSite;
 using BlogSite.Data;
 using BlogSite.Models;
 using Microsoft.AspNetCore.Identity;
@@ -6,8 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging.Abstractions;
 
 var builder = WebApplication.CreateBuilder(args);
-ILogger _logger = NullLogger.Instance;
-// Add services to the container.
+ILogger logger = NullLogger.Instance;
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 new PostDatabaseModel(connectionString, "app.db");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -28,30 +28,12 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    var roleStore = new RoleStore<IdentityRole>(dbContext); //Pass the instance of your DbContext here
-    var userStore = new UserStore<IdentityUser>(dbContext);
-    var roleManager = new RoleManager<IdentityRole>(roleStore, null, new UpperInvariantLookupNormalizer(), null, null);
-    if (await roleManager.FindByNameAsync("Admin") == null)
-        await roleManager.CreateAsync(new IdentityRole { Name = "Admin" });
-
-    var userManager = new UserManager<IdentityUser>(userStore, null, null, null, null,
-        new UpperInvariantLookupNormalizer(), null, null,
-        NullLogger<UserManager<IdentityUser>>.Instance);
+    Startup.CreateAdminRoles(Startup.GetRoleManager(dbContext));
     var userList = builder.Configuration.GetSection("Administrators").GetChildren();
-    foreach (var adminUser in userList)
-    {
-        var user = await userManager.FindByEmailAsync(adminUser.Value.ToUpper());
-        if (user != null)
-        {
-            var currRoles = await userManager.GetRolesAsync(user);
-            if (!currRoles.Contains("Admin"))
-            {
-                await userManager.AddToRoleAsync(user, "Admin");
-            }
-
-            await userManager.UpdateAsync(user);
-        }
-    }
+    var adminUsers = new List<string>();
+    foreach (var user in userList)
+        adminUsers.Add(user.Value);
+    await Startup.AddAdminsToAdminRole(adminUsers, Startup.GetUserManager(dbContext));
 }
 
 // Configure the HTTP request pipeline.
