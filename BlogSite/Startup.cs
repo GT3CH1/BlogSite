@@ -1,4 +1,5 @@
 using BlogSite.Data;
+using BlogSite.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -79,5 +80,6 @@ public class Startup
         
         webApplicationBuilder.Services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlite(connectionString));
+        PostDatabaseModel.ConnectionString = connectionString;
     }
 }

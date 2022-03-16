@@ -9,7 +9,6 @@ using Microsoft.Extensions.Logging.Abstractions;
 var builder = WebApplication.CreateBuilder(args);
 ILogger logger = NullLogger.Instance;
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-new PostDatabaseModel(connectionString, "app.db");
 Startup.SetupDatabase(builder, connectionString);
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddAuthorization(options =>

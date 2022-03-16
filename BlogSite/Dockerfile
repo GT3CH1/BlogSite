@@ -5,14 +5,10 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["BlogSite/BlogSite.csproj", "BlogSite/"]
+ADD ["BlogSite/BlogSite.csproj", "BlogSite/"]
 RUN dotnet restore "BlogSite/BlogSite.csproj"
 COPY . .
 WORKDIR "/src/BlogSite"
-RUN dotnet tool install --global dotnet-ef
-ENV PATH $PATH:/root/.dotnet/tools
-RUN dotnet-ef --version
-RUN dotnet ef database update
 RUN dotnet build "BlogSite.csproj" -c Release -o /app/build
 
 FROM build AS publish
