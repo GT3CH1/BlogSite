@@ -44,8 +44,7 @@ public class PostsController : Controller, IPostController
         try
         {
             var post = PostDatabaseController.GetPostById(postId);
-            ViewBag.Message.Title = post.Title;
-            ViewBag.Message.Content = post.Content;
+            ViewBag.Message = post;
             return View();
         }
         catch (ArgumentException)
@@ -63,8 +62,7 @@ public class PostsController : Controller, IPostController
         try
         {
             var post = PostDatabaseController.GetPostById(postId);
-            ViewBag.Message.Title = post.Title;
-            ViewBag.Message.Content = post.Content;
+            ViewBag.Message = post;
             return View();
         }
         catch (ArgumentException)

@@ -1,8 +1,7 @@
 ﻿@model BlogSite.Views.Posts.PostsView
 @{
-    var postTitle = ViewBag.Message.Title;
-    var postContent = ViewBag.Message.Content;
-    ViewData["Title"] = postTitle;
+    PostModel post = ViewBag.Message;
+    ViewData["Title"] = post.Title;
     Layout = "_Layout";
 }
 
@@ -11,17 +10,18 @@
 <html>
 <head>
     <link rel="stylesheet" href="/css/prism.css" type="text/css"></link>
-    <script src="/js/prism.js"></script>
+    <script src="/js/prism.js" data-manual></script>
 </head>
 <body>
-<div classes="w3-container">
-    <div class="w3-panel">
+<div>
+    <div>
         <br/>
-        <h2>@postTitle</h2>
+        <h2>@post.Title</h2>
         <br/>
         <hr/>
-        <div class="w3-panel w3-mobile">
-            @Html.Raw(postContent)
+        <br/>
+        <div class="w3-mobile">
+            @Html.Raw(post.Content)
         </div>
     </div>
 </div>
