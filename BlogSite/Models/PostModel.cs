@@ -57,8 +57,4 @@ public class PostModel : IPostModel
     public PostModel()
     {
     }
-
-    public void Delete() => PostDatabaseModel.DeletePost(this);
-    public void Update() => PostDatabaseModel.EditPost(this);
-    public int Create() => PostDatabaseModel.CreatePost(this);
 }
