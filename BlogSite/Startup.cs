@@ -54,7 +54,7 @@ public class Startup
         var userStore = new UserStore<IdentityUser>(applicationDbContext);
         var userManager1 = new UserManager<IdentityUser>(userStore, null, null, null, null,
             new UpperInvariantLookupNormalizer(), null, null,
-            NullLogger<UserManager<IdentityUser>>.Instance);
+            new NullLogger<UserManager<IdentityUser>>());
         return userManager1;
     }
 

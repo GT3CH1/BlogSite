@@ -23,9 +23,9 @@ public class PhotoService : IPhotoService
         fileName = fileName.Replace(" ", "_");
         if (!Directory.Exists(MEDIA_DIR))
             Directory.CreateDirectory(MEDIA_DIR);
-        filePath = GetNewImageName(fileName);
-        File.WriteAllBytes($"{MEDIA_DIR}{filePath}", bytes);
-        filePath = $"/Image/Get/{filePath}";
+        filePath = Path.GetRelativePath(".",Path.Combine(MEDIA_DIR,GetNewImageName(fileName)));
+        File.WriteAllBytes(filePath, bytes);
+        filePath = $"/Image/Get/{Path.GetRelativePath("Media",filePath)}";
         return true;
     }
 

@@ -18,7 +18,7 @@ public class ImageController : Controller, IImageController
     public IActionResult GetImage(string imageName)
     {
         var currdir = Environment.CurrentDirectory;
-        var path = Path.Combine($"{currdir}\\Media", imageName);
+        var path = Path.GetFullPath(Path.Combine($"{currdir}","Media", imageName));
         byte[] image = {0};
         if(System.IO.File.Exists(path))
             image = System.IO.File.ReadAllBytes(path);

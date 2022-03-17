@@ -22,6 +22,8 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetService<ApplicationDbContext>();
+    dbContext.Database.Migrate();
+
     Startup.CreateAdminRoles(Startup.GetRoleManager(dbContext));
     var userList = builder.Configuration.GetSection("Administrators").GetChildren();
     var adminUsers = new List<string>();
