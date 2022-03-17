@@ -32,4 +32,26 @@ public interface IPostController
     /// <param name="postId"></param>
     /// <returns></returns>
     public IActionResult PostsView(int postId);
+
+    /// <summary>
+    /// Allows a user to edit a post.
+    /// </summary>
+    /// <param name="title"></param>
+    /// <param name="content"></param>
+    /// <param name="postId"></param>
+    /// <returns></returns>
+    public IActionResult EditPost(string title, string content, int postId);
+
+    /// <summary>
+    /// Renders the post title + content from the given ID to allow updating.
+    /// </summary>
+    /// <param name="postId"></param>
+    /// <returns></returns>
+    public IActionResult EditPost(int postId);
+
+    /// <summary>
+    /// Deletes a post.
+    /// </summary>
+    /// <param name="postId"></param>
+    public IActionResult DeletePost(int postId);
 }
