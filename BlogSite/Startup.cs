@@ -80,6 +80,6 @@ public class Startup
         
         webApplicationBuilder.Services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlite(connectionString));
-        PostDatabaseModel.ConnectionString = connectionString;
+        PostDatabaseController.ConnectionString = connectionString;
     }
 }

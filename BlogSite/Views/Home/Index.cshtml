@@ -3,12 +3,12 @@
     ViewData["Title"] = "Home Page";
 }
 @{
-    var postIdList = PostDatabaseModel.GetPostIdList();
+    var postIdList = PostDatabaseController.GetPostIdList();
     postIdList.Reverse();
     @for (int count = 0; count < postIdList.Count; count++)
     {
         var postId = postIdList[count];
-        var post = PostDatabaseModel.GetPostById(postId);
+        var post = PostDatabaseController.GetPostById(postId);
         <div class="w3-row w3-margin">
             <div class="w3-panel w3-card-2 w3-moble w3-white w3-padding-16 w3-left w3-col w3-cell-middle">
                 <a href="Posts/View/@postId" class="no-ul w3-text-black w3-large w3-button w3-hover-blue-gray">
@@ -21,7 +21,7 @@
                 &nbsp;
                 <span class="w3-left w3-medium w3-text-gray">
                     @{
-                        @PostDatabaseModel.StripHtmlTags(post.Content.Substring(0, Math.Min(post.Content.Length, 500)))
+                        @PostDatabaseController.StripHtmlTags(post.Content.Substring(0, Math.Min(post.Content.Length, 500)))
                     }
                 </span>
             </div>

@@ -7,50 +7,13 @@ namespace BlogSite.Models;
 /// <summary>
 /// A model representing a connection to the post database.  This model can modify the database.
 /// </summary>
-public class PostDatabaseModel
+public class PostDatabaseController
 {
     /// <summary>
     /// The connection string to use for connecting to the post database.
     /// Default is "DataSource=posts.db;Cache=Shared"
     /// </summary>
     public static string ConnectionString { get; set; } = "DataSource=posts.db;Cache=Shared";
-
-    /// <summary>
-    /// The file path of the post database.
-    /// Default is "posts.db"
-    /// </summary>
-    public static string FilePath { get; private set; } = "posts.db";
-
-    /// <summary>
-    /// The string used to create the post table.
-    /// </summary>
-    private static readonly string PostsTableCommand = "CREATE TABLE IF NOT EXISTS " +
-                                                       "Posts (Title TEXT NOT NULL, Content TEXT NOT NULL, " +
-                                                       "ID INTEGER PRIMARY KEY NOT NULL)";
-
-    /// <summary>
-    /// Creates a new Database model for containing posts. If the filePath does not exist,
-    /// an attempt to make a new database.
-    /// </summary>
-    /// <param name="connectionString">The connection string to use</param>
-    /// <param name="filePath">The path of the database.</param>
-    public PostDatabaseModel(string connectionString, string filePath)
-    {
-        ConnectionString = connectionString;
-        FilePath = filePath;
-
-        //CreateDatabase();
-    }
-
-    /// <summary>
-    /// Creates a new post database connection.
-    /// </summary>
-    /// <exception cref="ArgumentException">Thrown when ConnectionString or FilePath are empty.</exception>
-    public PostDatabaseModel()
-    {
-        if (ConnectionString == string.Empty) throw new ArgumentException("ConnectionString cannot be empty");
-        if (FilePath == string.Empty) throw new ArgumentException("FilePath cannot be empty.");
-    }
 
     /// <summary>
     /// Adds the given post to the database.
@@ -77,6 +40,7 @@ public class PostDatabaseModel
                 // postContent = postContent.Replace("\"","\\\"");
                 cmd.Parameters.AddWithValue("@title", post.Title);
                 cmd.Parameters.AddWithValue("@content", post.Content);
+                cmd.Prepare();
                 newId = Convert.ToInt32(cmd.ExecuteScalar());
             }
 
@@ -110,6 +74,7 @@ public class PostDatabaseModel
                 cmd.Parameters.AddWithValue("@title", post.Title);
                 cmd.Parameters.AddWithValue("@content", post.Content);
                 cmd.Parameters.AddWithValue("@id", post.Id);
+                cmd.Prepare();
                 cmd.ExecuteNonQuery();
             }
 
@@ -135,6 +100,7 @@ public class PostDatabaseModel
                 var cmd = connection.CreateCommand();
                 cmd.CommandText = cmdText;
                 cmd.Parameters.AddWithValue("@id", post.Id);
+                cmd.Prepare();
                 cmd.ExecuteNonQuery();
             }
 
@@ -155,6 +121,7 @@ public class PostDatabaseModel
             var cmdText = "SELECT * FROM Posts WHERE ID=@id";
             var cmd = connection.CreateCommand();
             cmd.CommandText = cmdText;
+            cmd.Prepare();
             cmd.Parameters.AddWithValue("@id", id);
             using (var reader = cmd.ExecuteReader())
             {

@@ -36,7 +36,7 @@ public class Setup
         context.Database.EnsureCreated();
         context.Database.Migrate();
 
-        PostDatabaseModel.ConnectionString = ConnectionString;
+        PostDatabaseController.ConnectionString = ConnectionString;
     }
 }
 
@@ -57,35 +57,35 @@ public class Tests
     [Test]
     public void TestGetInvalidPostId()
     {
-        Assert.Throws<ArgumentException>(() => { PostDatabaseModel.GetPostById(-1); });
+        Assert.Throws<ArgumentException>(() => { PostDatabaseController.GetPostById(-1); });
     }
 
     [Test]
     public void CreatePost()
     {
         PostModel p = new PostModel("Test", "<h1>test content</h1>");
-        var postId = PostDatabaseModel.CreatePost(p);
-        var postFromDb = PostDatabaseModel.GetPostById(postId);
+        var postId = PostDatabaseController.CreatePost(p);
+        var postFromDb = PostDatabaseController.GetPostById(postId);
         Assert.AreEqual(postFromDb.Content, p.Content);
         Assert.AreEqual(postFromDb.Title, p.Title);
         Assert.AreEqual(postFromDb.Id, postId);
         // Ensure the post is deleted.
         p.Id = postId;
-        PostDatabaseModel.DeletePost(postFromDb);
+        PostDatabaseController.DeletePost(postFromDb);
     }
 
     [Test]
     public void DeletePost()
     {
         PostModel p = new PostModel("Test", "<h1>test content</h1>");
-        var postId = PostDatabaseModel.CreatePost(p);
-        var postFromDb = PostDatabaseModel.GetPostById(postId);
+        var postId = PostDatabaseController.CreatePost(p);
+        var postFromDb = PostDatabaseController.GetPostById(postId);
         Assert.AreEqual(postFromDb.Content, p.Content);
         Assert.AreEqual(postFromDb.Title, p.Title);
         Assert.AreEqual(postFromDb.Id, postId);
         // Ensure the post is deleted.
-        PostDatabaseModel.DeletePost(postFromDb);
-        Assert.Throws<ArgumentException>(() => { PostDatabaseModel.GetPostById(postId); });
+        PostDatabaseController.DeletePost(postFromDb);
+        Assert.Throws<ArgumentException>(() => { PostDatabaseController.GetPostById(postId); });
     }
 
     [Test]
@@ -94,13 +94,13 @@ public class Tests
         var oldContent = "<h1>test content</h1>";
         var newContent = "<h2>test content</h2>";
         PostModel p = new PostModel("Test", oldContent);
-        var postId = PostDatabaseModel.CreatePost(p);
-        p = PostDatabaseModel.GetPostById(postId);
+        var postId = PostDatabaseController.CreatePost(p);
+        p = PostDatabaseController.GetPostById(postId);
         p.Content = newContent;
-        PostDatabaseModel.EditPost(p);
-        p = PostDatabaseModel.GetPostById(postId);
+        PostDatabaseController.EditPost(p);
+        p = PostDatabaseController.GetPostById(postId);
         Assert.AreNotEqual(oldContent, p.Content);
-        PostDatabaseModel.DeletePost(p);
+        PostDatabaseController.DeletePost(p);
     }
 
     [Test]
@@ -108,7 +108,7 @@ public class Tests
     {
         var p = new PostModel();
         p.Content = "test";
-        Assert.Throws<ArgumentException>(() => PostDatabaseModel.CreatePost(p));
+        Assert.Throws<ArgumentException>(() => PostDatabaseController.CreatePost(p));
     }
 
     [Test]
@@ -116,61 +116,61 @@ public class Tests
     {
         var p = new PostModel();
         p.Title = "test";
-        Assert.Throws<ArgumentException>(() => PostDatabaseModel.CreatePost(p));
+        Assert.Throws<ArgumentException>(() => PostDatabaseController.CreatePost(p));
     }
 
     [Test]
     public void EditPostEmptyTitle()
     {
         var p = new PostModel("", "Content", 1);
-        Assert.Throws<ArgumentException>(() => PostDatabaseModel.EditPost(p));
+        Assert.Throws<ArgumentException>(() => PostDatabaseController.EditPost(p));
     }
 
     [Test]
     public void EditPostEmptyContent()
     {
         var p = new PostModel("title", "",1);
-        Assert.Throws<ArgumentException>(() => PostDatabaseModel.EditPost(p));
+        Assert.Throws<ArgumentException>(() => PostDatabaseController.EditPost(p));
     }
 
     [Test]
     public void EditPostBadId()
     {
         var p = new PostModel("title", "123", -1);
-        Assert.Throws<ArgumentException>(() => PostDatabaseModel.EditPost(p));
+        Assert.Throws<ArgumentException>(() => PostDatabaseController.EditPost(p));
     }
 
     [Test]
     public void DeletePostBadId()
     {
         var p = new PostModel("title", "123", -1);
-        Assert.Throws<ArgumentException>(() => PostDatabaseModel.DeletePost(p));
+        Assert.Throws<ArgumentException>(() => PostDatabaseController.DeletePost(p));
     }
 
     [Test]
     public void PostIdListEmptyAtStart()
     {
-        Assert.AreEqual(0,PostDatabaseModel.GetNumberOfPosts());
+        Assert.AreEqual(0,PostDatabaseController.GetNumberOfPosts());
     }
 
     [Test]
     public void AddingPostChangesIdList()
     {
-        var countBefore = PostDatabaseModel.GetPostIdList().Count;
+        var countBefore = PostDatabaseController.GetPostIdList().Count;
         var post = new PostModel("123", "123");
-        var postId = PostDatabaseModel.CreatePost(post);
-        Assert.AreEqual(countBefore + 1, PostDatabaseModel.GetNumberOfPosts());
+        var postId = PostDatabaseController.CreatePost(post);
+        Assert.AreEqual(countBefore + 1, PostDatabaseController.GetNumberOfPosts());
         post.Id = postId;
-        PostDatabaseModel.DeletePost(post);
+        PostDatabaseController.DeletePost(post);
     }
 
     [Test]
     public void PostIdListContainsNewPostId()
     {
         var post = new PostModel("123", "123");
-        var postId = PostDatabaseModel.CreatePost(post);
-        Assert.True(PostDatabaseModel.GetPostIdList().Contains(postId));
+        var postId = PostDatabaseController.CreatePost(post);
+        Assert.True(PostDatabaseController.GetPostIdList().Contains(postId));
         post.Id = postId;
-        PostDatabaseModel.DeletePost(post);
+        PostDatabaseController.DeletePost(post);
     }
 }

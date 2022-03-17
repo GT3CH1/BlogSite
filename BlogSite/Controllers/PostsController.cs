@@ -29,7 +29,7 @@ public class PostsController : Controller, IPostController
         var postModel = new PostModel(title, content);
         try
         {
-            int newPostId = postModel.Create();
+            int newPostId = PostDatabaseController.CreatePost(postModel);
             return RedirectToAction("PostsView", new { postId = newPostId });
         }
         catch (ArgumentException)
@@ -43,8 +43,9 @@ public class PostsController : Controller, IPostController
     {
         try
         {
-            var post = PostDatabaseModel.GetPostById(postId);
-            ViewBag.Message = post;
+            var post = PostDatabaseController.GetPostById(postId);
+            ViewBag.Message.Title = post.Title;
+            ViewBag.Message.Content = post.Content;
             return View();
         }
         catch (ArgumentException)
@@ -61,8 +62,9 @@ public class PostsController : Controller, IPostController
     {
         try
         {
-            var post = PostDatabaseModel.GetPostById(postId);
-            ViewBag.Message = post;
+            var post = PostDatabaseController.GetPostById(postId);
+            ViewBag.Message.Title = post.Title;
+            ViewBag.Message.Content = post.Content;
             return View();
         }
         catch (ArgumentException)
@@ -79,7 +81,7 @@ public class PostsController : Controller, IPostController
         var post = new PostModel(title, content, postId);
         try
         {
-            post.Update();
+            PostDatabaseController.EditPost(post);
             return RedirectToAction("PostsView", new { postId = postId });
         }
         catch (ArgumentException)
@@ -94,8 +96,8 @@ public class PostsController : Controller, IPostController
     {
         try
         {
-            var post = PostDatabaseModel.GetPostById(postId);
-            post.Delete();
+            var post = PostDatabaseController.GetPostById(postId);
+            PostDatabaseController.DeletePost(post);
             return View("Index");
         }
         catch (ArgumentException)
