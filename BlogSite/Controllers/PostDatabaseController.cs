@@ -1,6 +1,7 @@
 using System.Data.SQLite;
 using System.Text.RegularExpressions;
 using System.Transactions;
+using BlogSite.Data;
 
 namespace BlogSite.Models;
 
@@ -14,6 +15,8 @@ public class PostDatabaseController
     /// Default is "DataSource=posts.db;Cache=Shared"
     /// </summary>
     public static string ConnectionString { get; set; } = "DataSource=posts.db;Cache=Shared";
+
+    public static ApplicationDbContext Context { get; set; }
 
     /// <summary>
     /// Adds the given post to the database.
@@ -42,10 +45,12 @@ public class PostDatabaseController
                 cmd.Parameters.AddWithValue("@content", post.Content);
                 cmd.Prepare();
                 newId = Convert.ToInt32(cmd.ExecuteScalar());
+                Save();
             }
 
             scope.Complete();
         }
+
         return newId;
     }
 
@@ -62,7 +67,7 @@ public class PostDatabaseController
             throw new ArgumentException("The content cannot be empty.");
         if (post.Id == -1)
             throw new ArgumentException("The post id cannot be invalid.");
-        
+
         using (var scope = new TransactionScope())
         {
             using (var connection = new SQLiteConnection(ConnectionString))
@@ -76,6 +81,7 @@ public class PostDatabaseController
                 cmd.Parameters.AddWithValue("@id", post.Id);
                 cmd.Prepare();
                 cmd.ExecuteNonQuery();
+                Save();
             }
 
             scope.Complete();
@@ -102,6 +108,7 @@ public class PostDatabaseController
                 cmd.Parameters.AddWithValue("@id", post.Id);
                 cmd.Prepare();
                 cmd.ExecuteNonQuery();
+                Save();
             }
 
             scope.Complete();
@@ -177,6 +184,7 @@ public class PostDatabaseController
                 }
             }
         }
+
         return postIds;
     }
 
@@ -189,5 +197,14 @@ public class PostDatabaseController
     {
         var noHtmlTags = Regex.Replace(html, "<.*?>", string.Empty);
         return Regex.Replace(noHtmlTags, "&.*?;", string.Empty);
+    }
+
+    /// <summary>
+    /// Saves the changes.
+    /// </summary>
+    /// <param name="context"></param>
+    private static void Save()
+    {
+        Context.SaveChanges();
     }
 }
