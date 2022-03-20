@@ -21,8 +21,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v2
-        name: Build the Docker image
+      - name: Build the Docker image
         run: |
            docker build . --file BlogSite/Dockerfile -t gcpease/blogsite:latest -t gcpease/blogsite:${{env.git_hash}}
            docker push gcpease/blogsite:latest
