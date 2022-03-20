@@ -23,7 +23,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Build the Docker image
         run: |
-           docker build . --file BlogSite/Dockerfile -t gcpease/blogsite:latest -t gcpease/blogsite:${{ steps.hash.outputs.sha_short }}
+           docker build . --file BlogSite/Dockerfile --tag gcpease/blogsite:latest --tag gcpease/blogsite:${{ steps.hash.outputs.sha_short }}
            docker push gcpease/blogsite:latest
            docker push gcpease/blogsite:${{env.git_hash}}
       - name: executing remote ssh commands using password
