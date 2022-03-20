@@ -1,8 +1,5 @@
 using BlogSite;
 using BlogSite.Data;
-using BlogSite.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging.Abstractions;
 
@@ -19,7 +16,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddLogging();
 var app = builder.Build();
-PostDatabaseController.Context = app.Services.GetService<ApplicationDbContext>();
+// PostDatabaseController.Context = app.Services.GetService<ApplicationDbContext>();
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetService<ApplicationDbContext>();

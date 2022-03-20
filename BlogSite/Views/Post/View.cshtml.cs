@@ -6,6 +6,5 @@ public class PostsView : PageModel
 {
     public void OnGet()
     {
-        
     }
 }

@@ -1,5 +1,4 @@
 using BlogSite.Data;
-using BlogSite.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -77,9 +76,8 @@ public class Startup
             .AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
-        
+
         webApplicationBuilder.Services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlite(connectionString));
-        PostDatabaseController.ConnectionString = connectionString;
     }
 }
