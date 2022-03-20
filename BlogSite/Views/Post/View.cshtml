@@ -1,7 +1,6 @@
-﻿@model BlogSite.Views.Posts.PostsView
+﻿@model Posts
 @{
-    PostModel post = ViewBag.Message;
-    ViewData["Title"] = post.Title;
+    ViewData["Title"] = Model.Title;
     Layout = "_Layout";
 }
 
@@ -16,12 +15,12 @@
 <div>
     <div>
         <br/>
-        <h2>@post.Title</h2>
+        <h2>@Model.Title</h2>
         <br/>
         <hr/>
         <br/>
         <div class="w3-mobile">
-            @Html.Raw(post.Content)
+            @Html.Raw(Model.Content)
         </div>
     </div>
 </div>

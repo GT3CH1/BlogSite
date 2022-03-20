@@ -1,0 +1,18 @@
+@model Posts
+
+@{
+    ViewBag.Title = "Delete Post";
+    Layout = "_Layout";
+}
+
+<h2>Are you sure you want to delete this post?</h2>
+<br/>
+<br/>
+<h4>@Model.Title</h4>
+<br/>
+<br/>
+<form method="post">
+    <a href="../" class="w3-blue w3-button">No</a>
+    &nbsp; &nbsp;
+    <button class="w3-red w3-button">Yes</button>
+</form>

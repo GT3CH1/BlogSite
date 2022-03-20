@@ -1,0 +1,24 @@
+﻿@model List<Posts> 
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Posts";
+}
+<center></center>
+<table class="w3-table-all w3-rest">
+    <tr>
+        <th>Post Name</th>
+        <th>ID</th>
+        <th>Actions</th>
+    </tr>
+    @{
+        @foreach (var p in Model)
+        {
+            <tr>
+                <td>@p.Title</td>
+                <td>@p.Id</td>
+                <td><a class="no-ul w3-text-deep-orange" href="/Post/Edit/@p.Id">Edit</a>&nbsp;|&nbsp;<a class="no-ul w3-text-red"href="/Post/Delete/@p.Id">Delete</a></td>
+            </tr>
+        }
+    }
+</table>

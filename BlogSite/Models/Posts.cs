@@ -1,11 +1,14 @@
-﻿using BlogSite.Data;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using BlogSite.Data;
 using BlogSite.Interfaces;
 
 namespace BlogSite.Models;
 
-public class PostModel : IPostModel
+public class Posts : IPostModel
 {
-    public int Id { get; set; } = -1;
+    [Key] [DatabaseGenerated(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity)]  
+    public int Id { get; set; }
 
     /// <summary>
     /// The title, without any script tags.
@@ -41,20 +44,20 @@ public class PostModel : IPostModel
         }
     }
 
-    public PostModel(string title, string content, int id)
+    public Posts(string title, string content, int id)
     {
         Title = title;
         Content = content;
         Id = id;
     }
 
-    public PostModel(string title, string content)
+    public Posts(string title, string content)
     {
         Title = title;
         Content = content;
     }
 
-    public PostModel()
+    public Posts()
     {
     }
 }

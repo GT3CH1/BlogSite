@@ -29,8 +29,8 @@
                     var principal = User.IsInRole("Admin");
                     if (principal)
                     {
-                        <a class="w3-button w3-black w3-hover-blue" asp-area="" asp-controller="Posts" asp-action="Index">Posts</a>
-                        <a class="w3-button w3-black w3-hover-blue" asp-area="" asp-controller="Posts" asp-action="CreatePost">Create Post</a>
+                        <a class="w3-button w3-black w3-hover-blue" asp-area="" asp-controller="Post" asp-action="Index">Posts</a>
+                        <a class="w3-button w3-black w3-hover-blue" asp-area="" asp-controller="Post" asp-action="Create">Create Post</a>
                     }
                 }
                 <partial name="_LoginPartial"/>
@@ -40,6 +40,8 @@
 </header>
 <div class="container">
     <main role="main" class="pb-3">
+        <br/>
+        <br/>
         @RenderBody()
     </main>
 </div>

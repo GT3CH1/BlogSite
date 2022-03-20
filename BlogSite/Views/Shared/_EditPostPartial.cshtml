@@ -1,16 +1,11 @@
-@model PostModel
+@model Posts
 @{
-    ViewData["Title"] = "Edit a post";
-    dynamic bag = ViewBag;
-    string title = "A really cool title.";
-    string content = "Some awesome content";
-    @if ((PostModel)ViewBag.Message != null)
+    var title = "A really cool title.";
+    var content = "Some awesome content";
+    if (Model is not null)
     {
-        title = ViewBag.Message.Title;
-    }
-    @if (ViewBag.Message != null)
-    {
-        content = ViewBag.Message.Content;
+        title = Model.Title;
+        content = Model.Content;
     }
 }
 
