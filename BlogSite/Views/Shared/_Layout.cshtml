@@ -6,7 +6,7 @@
     <title>@ViewData["Title"] - BlogSite</title>
     <link rel="stylesheet" href="/css/prism.css" type="text/css"></link>
     <script src="/js/prism.js" data-manual></script>
-
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <link rel="stylesheet" href="~/css/w3.css"/>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
     <link rel="stylesheet" href="~/BlogSite.styles.css" asp-append-version="true"/>
@@ -52,7 +52,6 @@
         &copy; 2022 - Gavin C. Pease - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
     </div>
 </footer>
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
 @await RenderSectionAsync("Scripts", required: false)
