@@ -31,6 +31,7 @@ jobs:
         with:
           push: true
           tags: gcpease/blogsite:latest
+          file: {context}/BlogSite/Dockerfile
       - name: executing remote ssh commands using password
         uses: appleboy/ssh-action@master
         with:
