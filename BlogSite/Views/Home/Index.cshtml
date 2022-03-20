@@ -4,6 +4,7 @@
     ViewData["Title"] = "Home Page";
 }
 @{
+    Model.Reverse();
     @foreach (var post in Model)
     {
         <div class="w3-row w3-margin">
@@ -23,3 +24,5 @@
         </div>
     }
 }
+<br/>
+<br/>
