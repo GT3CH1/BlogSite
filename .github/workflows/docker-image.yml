@@ -29,7 +29,7 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v2
         with:
-          context: BlogSite
+          file: BlogSite/Dockerfile
           push: true
           tags: gcpease/blogsite:latest
       - name: executing remote ssh commands using password
