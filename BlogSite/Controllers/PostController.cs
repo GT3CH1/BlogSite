@@ -61,8 +61,7 @@ namespace BlogSite.Controllers
             {
                 _context.Add(posts);
                 await _context.SaveChangesAsync();
-                //TODO: Why isn't this working
-                return RedirectToAction("View", posts.Id);
+                return RedirectToAction("View", new { id = posts.Id });
             }
 
             return View(posts);
@@ -118,7 +117,7 @@ namespace BlogSite.Controllers
                     }
                 }
 
-                return RedirectToAction("View", id);
+                return RedirectToAction("View", new { id = id });
             }
 
             return View(posts);
