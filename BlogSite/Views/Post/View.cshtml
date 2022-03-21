@@ -7,6 +7,9 @@
 <!DOCTYPE html>
 
 <html>
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.12/clipboard.min.js"></script>
+</head>
 <body >
 <div>
     <div>
@@ -21,54 +24,38 @@
     </div>
 </div>
 </body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.12/clipboard.min.js"></script>
+<br/>
+<br/>
+
 <script>
-$(document).ready(function (){
-        $("code").addClass("line-numbers");
-        $("pre").attr("data-src","/js/prism.js");
+var clipboardArr = [];
+$(document).ready(function() {
+    $('.code-toolbar').each(function(index){
+        var toolbarId = 'toolbar-'+index;
+        $(this).children('.toolbar').addClass(toolbarId);
+        $('.'+toolbarId).append('<div class="copy w3-button w3-dark-gray">copy</div>');      
+    });
 
-        Prism.highlightAll();
-		});
-
-//
-// al pre tags on the page
-const pres = document.getElementsByTagName("pre")
-
-//
-// reformat html of pre tags
-if (pres !== null ) {
-  for (let i = 0; i < pres.length; i++) {
-    // check if its a pre tag with a prism class
-    if (isPrismClass(pres[i])) {
-      // insert code and copy element
-      pres[i].innerHTML = `<div class="copy w3-button w3-small" style="float:right">Copy</div><code class="${pres[i].className}">${pres[i].innerHTML}</code>`      
-    }
-  }
-}
-
-//
-// create clipboard for every copy element
-const clipboard = new Clipboard('.copy', {
-  target: (trigger) => {
-    return trigger.nextElementSibling;
-  }
+    $("pre").each(function (index){
+        $(this).addClass('line-numbers');
+    });
+    
+    const clipboard = new Clipboard('.copy', {
+      target: (trigger) => {
+        console.log();
+        return trigger.parentElement.parentElement.children[0];
+      }
+    });
+    clipboard.on('success', (event) => {
+      event.trigger.textContent = 'Copied!';
+      setTimeout(() => {
+        event.clearSelection();
+        event.trigger.textContent = 'Copy';
+      }, 1000);
+    });
+    Prism.highlightAll();
 });
-
-//
-// do stuff when copy is clicked
-clipboard.on('success', (event) => {
-  event.trigger.textContent = 'Copied!';
-  setTimeout(() => {
-    event.clearSelection();
-    event.trigger.textContent = 'Copy';
-  }, 2000);
-});
-
-//
-// helper function
-function isPrismClass(preTag) { 
-  return preTag.className.substring(0, 8) === 'language'
-}
-
 </script>
+<script src="/js/prism.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.27.0/plugins/autoloader/prism-autoloader.min.js" integrity="sha512-GP4x8UWxWyh4BMbyJGOGneiTbkrWEF5izsVJByzVLodP8CuJH/n936+yQDMJJrOPUHLgyPbLiGw2rXmdvGdXHA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </html>
