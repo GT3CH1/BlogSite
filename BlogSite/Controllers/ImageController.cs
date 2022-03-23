@@ -17,12 +17,21 @@ public class ImageController : Controller, IImageController
     [HttpGet]
     public IActionResult GetImage(string imageName)
     {
-        var currdir = Environment.CurrentDirectory;
-        var path = Path.GetFullPath(Path.Combine($"{currdir}","Media", imageName));
-        byte[] image = {0};
-        if(System.IO.File.Exists(path))
-            image = System.IO.File.ReadAllBytes(path);
-        return File(image, "image/jpeg");
+        // Get current directory
+        var currentDirectory = Directory.GetCurrentDirectory();
+        // Add Media path to current directory
+        var mediaPath = Path.GetFullPath(Path.Combine(currentDirectory, "Media", imageName));
+        // Check if file exists
+        if (System.IO.File.Exists(mediaPath))
+        {
+            // Return file
+            return PhysicalFile(mediaPath, "image/jpeg");
+        }
+        else
+        {
+            // Return default image
+            return PhysicalFile(Path.GetFullPath(Path.Combine(currentDirectory, "Media", "default.jpg")), "image/jpeg");
+        }
     }
 
 
@@ -31,22 +40,18 @@ public class ImageController : Controller, IImageController
     [Authorize(Roles = "Admin")]
     public string UploadImage(string fileData, string fileName)
     {
+        //Create new PhotoService
         var photoService = new PhotoService();
         string filePath;
-        var res = photoService.Upload(fileData, fileName, out filePath);
-        if (res)
+        // Upload filedata using photoService
+        var result = photoService.Upload(fileData, fileName, out filePath);
+        // Create new location object.
+        var location = new ImageLocation
         {
-            return JsonConvert.SerializeObject(new ImageLocation
-            {
-                location = filePath,
-            });
-        }
-        else
-        {
-            return JsonConvert.SerializeObject(new ImageLocation
-            {
-                location = "",
-            });
-        }
+            ImagePath = filePath
+        };
+        // Return result as json 
+        var res = JsonConvert.SerializeObject(location);
+        return res;
     }
 }

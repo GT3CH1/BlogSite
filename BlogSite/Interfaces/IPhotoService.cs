@@ -19,13 +19,6 @@ public interface IPhotoService
     public bool ImageExists(string filename);
 
     /// <summary>
-    /// Creates an alternative file name if there is a collision.
-    /// </summary>
-    /// <param name="filename"></param>
-    /// <returns></returns>
-    public string GetAlternativeFilename(string filename);
-
-    /// <summary>
     /// Gets the filepath/name of an uploaded image.
     /// </summary>
     /// <param name="filename"></param>
@@ -37,7 +30,7 @@ public interface IPhotoService
     /// </summary>
     /// <param name="imageName"></param>
     /// <returns></returns>
-    public string GetImage(string imageName);
+    public string GetImageAsBase64(string imageName);
 
     public static string RandomString()
     {

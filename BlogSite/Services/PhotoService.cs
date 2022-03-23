@@ -9,6 +9,13 @@ public class PhotoService : IPhotoService
 
     public readonly string[] ALLOWED_EXTENSIONS = { ".jpg", ".png", ".gif", ".webp" };
 
+    /// <summary>
+    /// Uploads a photo to the server.
+    /// </summary>
+    /// <param name="base64">The base64 encoding.</param>
+    /// <param name="fileName">The file name.</param>
+    /// <param name="filePath">The path of the file.</param>
+    /// <returns></returns>
     public bool Upload(string base64, string fileName, out string filePath)
     {
         byte[] bytes = Convert.FromBase64String(base64);
@@ -23,53 +30,59 @@ public class PhotoService : IPhotoService
         fileName = fileName.Replace(" ", "_");
         if (!Directory.Exists(MEDIA_DIR))
             Directory.CreateDirectory(MEDIA_DIR);
-        filePath = Path.GetRelativePath(".",Path.Combine(MEDIA_DIR,GetNewImageName(fileName)));
+        filePath = Path.GetRelativePath(".", Path.Combine(MEDIA_DIR, GetNewImageName(fileName)));
         File.WriteAllBytes(filePath, bytes);
-        filePath = $"/Image/Get/{Path.GetRelativePath("Media",filePath)}";
+        filePath = $"/Image/Get/{Path.GetRelativePath("Media", filePath)}";
         return true;
     }
 
-    public bool ImageExists(string filename)
-    {
-        var fileExists = File.Exists(filename);
-        if (!fileExists)
-            fileExists = File.Exists($"{MEDIA_DIR}{filename}");
-        return fileExists;
-    }
+    /// <summary>
+    /// Gets whether or not the image exists.
+    /// </summary>
+    /// <param name="filename">The filename</param>
+    /// <returns>True if it exists, false otherwise.</returns>
+    public bool ImageExists(string filename) => File.Exists(Path.Combine(MEDIA_DIR, filename));
 
+    /// <summary>
+    /// Gets the file path of the image if it exists.
+    /// </summary>
+    /// <param name="filename">The file name.</param>
+    /// <returns>True if the path exists.</returns>
     public string GetPathIfImageExists(string filename)
     {
-        var path = filename;
-        if (!File.Exists(filename))
-            path = $"{MEDIA_DIR}{filename}";
-        if (!File.Exists(path))
-            return "";
-        return $"/Media/{filename}";
+        if (ImageExists(filename))
+            return $"/Image/Get/{Path.GetRelativePath("Media", filename)}";
+        return "";
     }
 
-    public string GetAlternativeFilename(string filename)
-    {
-        var fileName = Path.GetFileNameWithoutExtension($"{MEDIA_DIR}{filename}");
-        var extension = Path.GetExtension(filename);
-        return $"{fileName}_{IPhotoService.RandomString()}{extension}";
-    }
-
+    /// <summary>
+    /// Generates a new image name if the image already exists.
+    /// </summary>
+    /// <param name="filename">The file name.</param>
+    /// <returns>A new(?) file name</returns>
     public string GetNewImageName(string filename)
     {
-        if (ImageExists(filename))
+        var extension = Path.GetExtension(filename);
+        var name = Path.GetFileNameWithoutExtension(filename);
+        var i = 1;
+        while (ImageExists(filename))
         {
-            var imageExists = ImageExists(GetAlternativeFilename(filename));
-            while (imageExists)
-                imageExists = ImageExists(GetAlternativeFilename(filename));
-            return $"{GetAlternativeFilename(filename)}";
+            filename = $"{name}_{i++}{extension}";
         }
 
-        return $"{filename}";
+        return filename;
     }
 
-    public string GetImage(string imageName)
+    /// <summary>
+    /// Gets the image as base64 if it exists.
+    /// </summary>
+    /// <param name="imageName">The image name</param>
+    /// <returns>The location of the image.</returns>
+    public string GetImageAsBase64(string imageName)
     {
-        var img = File.ReadAllBytes($"{MEDIA_DIR}{imageName}");
-        return Convert.ToBase64String(img);
+        var path = Path.Combine(MEDIA_DIR, imageName);
+        if (!File.Exists(path))
+            return "";
+        return Convert.ToBase64String(File.ReadAllBytes(path));
     }
 }
