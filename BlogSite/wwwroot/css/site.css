@@ -37,3 +37,16 @@ img {
     max-width: 100%;
     height: auto;
 }
+
+.title {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+}
+
+.post {
+    display: inline-block;
+    line-break: anywhere;
+}

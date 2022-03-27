@@ -2,17 +2,17 @@
 @model List<Posts> 
 @{
     ViewData["Title"] = "Home Page";
+    Layout = "_Layout";
 }
-@{
-    Model.Reverse();
-    @foreach (var post in Model)
-    {
-        <div class="w3-row w3-margin">
-            <div class="w3-panel w3-card-2 w3-moble w3-white w3-padding-16 w3-left w3-col w3-cell-middle">
-                <a href="Post/View/@post.Id" class="no-ul w3-text-black w3-large w3-button w3-hover-blue-gray">
-                    <span>
+<div class="w3-row w3-margin">
+    @{
+        Model.Reverse();
+        @foreach (var post in Model)
+        {
+            <div class="w3-container w3-quarter w3-mobile" style="width:12.5vw"></div>
+            <div class="w3-panel w3-card-2 w3-moble w3-white w3-padding-16 w3-left w3-col w3-cell-middle w3-threequarter post">
+                <a href="Post/View/@post.Id" class="no-ul w3-text-black w3-large w3-button w3-hover-blue-gray title">
                         @post.Title
-                    </span>
                 </a>
                 <hr/>
                 <br/>
@@ -21,8 +21,8 @@
                     @HomeController.StripHtmlTags(post.Content.Substring(0, Math.Min(post.Content.Length, 500)))
                 </span>
             </div>
-        </div>
+        }
     }
-}
+</div>
 <br/>
 <br/>
