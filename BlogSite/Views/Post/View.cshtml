@@ -11,15 +11,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.12/clipboard.min.js"></script>
 </head>
 <body >
-<div class="w3-threequarter w3-mobile w3-auto ">
-    <br/>
-    <h2>@Model.Title</h2>
-    <br/>
-    <hr/>
-    <br/>
-    <div class="w3-mobile ">
-        @Html.Raw(Model.Content)
+<div class="w3-row">
+    <div class="w3-container w3-quarter w3-mobile" style="width:12.5vw"></div>
+    <div class="w3-threequarter w3-mobile w3-container ">
+        <br/>
+        <h2>@Model.Title</h2>
+        <br/>
+        <hr/>
+        <br/>
+        <div class="w3-mobile ">
+            @Html.Raw(Model.Content)
+        </div>
     </div>
+    <div class="w3-container w3-quarter w3-mobile" style="width:12.5vw"></div>
 </div>
 </body>
 <br/>

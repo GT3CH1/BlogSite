@@ -32,3 +32,8 @@ form.form-right-align {
 a.no-ul {
     text-decoration: none;
 }
+
+img {
+    max-width: 100%;
+    height: auto;
+}
