@@ -5,20 +5,27 @@
     ViewData["Title"] = "Posts";
 }
 <center></center>
-<table class="w3-table-all w3-rest">
-    <tr>
-        <th>Post Name</th>
-        <th>ID</th>
-        <th>Actions</th>
-    </tr>
-    @{
-        @foreach (var p in Model)
-        {
+<div class="w3-row">
+    <div class="w3-container w3-quarter" style="width:12.5%!important;";></div>
+    <div class="w3-container w3-threequarter">
+        <table class="w3-table-all w3-rest">
             <tr>
-                <td>@p.Title</td>
-                <td>@p.Id</td>
-                <td><a class="no-ul w3-text-deep-orange" href="/Post/Edit/@p.Id">Edit</a>&nbsp;|&nbsp;<a class="no-ul w3-text-red"href="/Post/Delete/@p.Id">Delete</a></td>
+                <th>Post Name</th>
+                <th>ID</th>
+                <th>Actions</th>
             </tr>
-        }
-    }
-</table>
+            @{
+                @foreach (var p in Model)
+                {
+                    <tr>
+                        <td>@p.Title</td>
+                        <td>@p.Id</td>
+                        <td><a class="no-ul w3-text-deep-orange" href="/Post/Edit/@p.Id">Edit</a>&nbsp;|&nbsp;<a class="no-ul w3-text-red"href="/Post/Delete/@p.Id">Delete</a></td>
+                    </tr>
+                }
+            }
+        </table>
+    </div>
+    <div class="w3-container w3-quarter" style="width:12.5%!important;";></div>
+
+</div>
