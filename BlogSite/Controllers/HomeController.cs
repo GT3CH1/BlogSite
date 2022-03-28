@@ -37,10 +37,13 @@ public class HomeController : Controller, IHomeController
     {
         if (!String.IsNullOrEmpty(HttpContext.Request.Query["search"]))
         {
-            var searchString = HttpContext.Request.Query["search"];
-            var posts = _context.Posts.Where(s => s.Title.Contains(searchString));
+            string searchString = HttpContext.Request.Query["search"];
             ViewBag.search = searchString;
-            return View(posts.ToList().GetRange(0, Math.Min(posts.Count(), 10)));
+            var postsByTitle = _context.Posts.Where(s => s.Title.ToLower().Contains(searchString.ToLower()));
+            // Also append the results of searching the content
+            var postsByContent = _context.Posts.Where(s => s.Content.ToLower().Contains(searchString.ToLower()));
+            var allPosts = postsByTitle.Union(postsByContent);
+            return View(allPosts.ToList().GetRange(0, Math.Min(allPosts.Count(), 10)));
         }
 
         return View(_context.Posts.ToList().GetRange(0, Math.Min(_context.Posts.Count(), 10)));
