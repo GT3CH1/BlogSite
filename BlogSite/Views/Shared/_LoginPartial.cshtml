@@ -5,7 +5,7 @@
 @if (SignInManager.IsSignedIn(User))
 {
     <form class="form-right-align" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-        <button type="submit" class="w3-black w3-button w3-hover-blue w3-animate-opacity ">Logout</button>
+        <button type="submit" class="w3-black w3-button w3-hover-blue">Logout</button>
     </form>
 }
 else
@@ -13,5 +13,5 @@ else
         @*<li class="nav-item">*@
             @* <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a> *@
         @*</li>*@
-    <a class="w3-black w3-button w3-animate-opacity  w3-hover-blue" asp-area="Identity" asp-page="/Account/Login">Login</a>
+    <a class="w3-black w3-button w3-hover-blue" asp-area="Identity" asp-page="/Account/Login">Login</a>
 }

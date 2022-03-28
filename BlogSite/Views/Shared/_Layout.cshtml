@@ -22,7 +22,7 @@
             @*     <span class="navbar-toggler-icon"></span> *@
             @* </button> *@
             <div class="w3-centered">
-                <a class="w3-button w3-black w3-hover-blue w3-animate-opacity" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                <a class="w3-button w3-black w3-hover-blue " asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                 @* <li class="nav-item"> *@
                 @*     <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a> *@
                 @* </li> *@
@@ -31,8 +31,8 @@
                     var principal = User.IsInRole("Admin");
                     if (principal)
                     {
-                        <a class="w3-button w3-black w3-hover-blue w3-animate-opacity" asp-area="" asp-controller="Post" asp-action="Index">Posts</a>
-                        <a class="w3-button w3-black w3-hover-blue w3-animate-opacity" asp-area="" asp-controller="Post" asp-action="Create">Create Post</a>
+                        <a class="w3-button w3-black w3-hover-blue " asp-area="" asp-controller="Post" asp-action="Index">Posts</a>
+                        <a class="w3-button w3-black w3-hover-blue " asp-area="" asp-controller="Post" asp-action="Create">Create Post</a>
                     }
                 }
                 <partial name="_LoginPartial"/>
