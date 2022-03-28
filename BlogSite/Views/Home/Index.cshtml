@@ -3,12 +3,14 @@
 @{
     ViewData["Title"] = "Home Page";
     Layout = "_Layout";
+    var data = (string)ViewBag.search;
+    var searchValue = (data == null) ? string.Empty : data;
 }
 <div class="w3-row w3-margin">
     <div>
         <form href="/">
-            <input type="text" class="w3-input w3-border w3-round w3-threequarter" name="search" id="search" placeholder="Search..."/>
-            <input type="submit" class="w3-button w3-blue w3-round w3-right" id="searchButton" value="Search"/>
+            <input type="text" class="w3-input w3-border w3-round w3-threequarter" name="search" id="search" placeholder="Search..." value="@searchValue"/>
+            <input type="submit" class="w3-button w3-blue w3-round w3-right w3-mobile" id="searchButton" value="Search"/>
         </form>
     </div>
     @{

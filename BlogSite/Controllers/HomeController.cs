@@ -25,7 +25,8 @@ public class HomeController : Controller, IHomeController
 
         if (!string.IsNullOrEmpty(searchString))
         {
-            posts = posts.Where(s => s.Title.Contains(searchString));
+            // Normalize the search string
+            posts = posts.Where(s => s.Title.ToUpper().Contains(searchString.ToUpper()));
         }
 
         return View(posts.ToList());
@@ -38,6 +39,7 @@ public class HomeController : Controller, IHomeController
         {
             var searchString = HttpContext.Request.Query["search"];
             var posts = _context.Posts.Where(s => s.Title.Contains(searchString));
+            ViewBag.search = searchString;
             return View(posts.ToList().GetRange(0, Math.Min(posts.Count(), 10)));
         }
 
