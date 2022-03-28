@@ -15,9 +15,6 @@
 <head>
     <title>@title</title>
     <script src="https://cdn.tiny.cloud/1/9iriah77b698mbblw03a4u3h3v2bby42y5r7w49r6byrwjqg/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-    <link rel="stylesheet" href="/css/prism.css"/>
-    <link rel="stylesheet" type="text/css" id="u0" crossorigin="anonymous" referrerpolicy="origin" href="https://cdn.tiny.cloud/1/invalid-origin/tinymce/5.1.6-68/skins/ui/oxide/content.min.css">
-    <link rel="stylesheet" type="text/css" id="u1" crossorigin="anonymous" referrerpolicy="origin" href="https://cdn.tiny.cloud/1/invalid-origin/tinymce/5.1.6-68/skins/content/default/content.min.css">
     <style>
 	    *{
 	    	margin: 0px !important;
@@ -27,8 +24,8 @@
     			tinymce.init({
     			    height: 600,
     				selector: 'textarea',
-    			    plugins: 'autosave image codesample lists link autolink code ',
-    				toolbar: 'undo redo | bold italic underline forecolor removeformat | fontselect fontsizeselect formatselect | alignleft aligncenter alignright | image codesample numlist bullist insert link',
+    			    plugins: 'autosave image codesample lists link autolink code hr',
+    				toolbar: 'undo redo | bold italic underline forecolor removeformat | fontselect fontsizeselect formatselect | alignleft aligncenter alignright | image codesample numlist bullist insert link | hr restoredraft',
     			    toolbar_drawer: 'floating',
     			    autosave_ask_before_unload: false,
     				autosave_restore_when_empty: true,
@@ -38,8 +35,7 @@
     				browser_spellcheck : true,
     				convert_urls: false,
                     images_upload_url: '/Image/UploadImage',
-					codesample_content_css: "/css/prism.css",
-					codesample_global_prismjs: true,
+                    codesample_global_prismjs: true,
 					codesample_languages: [
 						{ text: 'HTML/XML', value: 'markup' },
 						{ text: 'JavaScript', value: 'javascript' },
@@ -60,6 +56,8 @@
 						{ text: 'Dockerfile', value: 'dockerfile' },
 						{ text: 'JSON', value: 'json' }
 					  ],
+					codesample_content_css: "/css/prism.css",
+
                     images_upload_handler: function (blobInfo, success, failure) {
 						// jsonToPost={'fileData':blobInfo.base64()};
 						// $.ajax({
@@ -114,5 +112,4 @@
     </form>
 </div>
 </body>
-<script src="/js/prism.js" data-manual></script>
 </html>

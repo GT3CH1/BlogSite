@@ -9,9 +9,9 @@ namespace BlogSite.Controllers;
 public class HomeController : Controller, IHomeController
 {
     private readonly ILogger<HomeController> _logger;
-    private ApplicationDbContext _context;
+    private PostDbContext _context;
 
-    public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
+    public HomeController(ILogger<HomeController> logger, PostDbContext context)
     {
         _logger = logger;
         _context = context;

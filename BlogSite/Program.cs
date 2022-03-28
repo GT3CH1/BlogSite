@@ -6,7 +6,8 @@ using Microsoft.Extensions.Logging.Abstractions;
 var builder = WebApplication.CreateBuilder(args);
 ILogger logger = NullLogger.Instance;
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-Startup.SetupDatabase(builder, connectionString);
+var postConnectionString = builder.Configuration.GetConnectionString("PostDatabase");
+Startup.SetupDatabase(builder, connectionString, postConnectionString);
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddAuthorization(options =>
 {
@@ -21,6 +22,8 @@ using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetService<ApplicationDbContext>();
     dbContext.Database.Migrate();
+    var postDb = scope.ServiceProvider.GetService<PostDbContext>();
+    postDb.Database.Migrate();
     Startup.CreateAdminRoles(Startup.GetRoleManager(dbContext));
     var userList = builder.Configuration.GetSection("Administrators").GetChildren();
     var adminUsers = new List<string>();

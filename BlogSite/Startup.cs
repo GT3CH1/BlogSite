@@ -70,7 +70,8 @@ public class Startup
         return roleManager1;
     }
 
-    public static void SetupDatabase(WebApplicationBuilder webApplicationBuilder, string connectionString)
+    public static void SetupDatabase(WebApplicationBuilder webApplicationBuilder, string appConnectionString,
+        string postConnectionString)
     {
         webApplicationBuilder.Services
             .AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
@@ -78,6 +79,8 @@ public class Startup
             .AddEntityFrameworkStores<ApplicationDbContext>();
 
         webApplicationBuilder.Services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlite(connectionString));
+            options.UseSqlite(appConnectionString));
+        webApplicationBuilder.Services.AddDbContext<PostDbContext>(options =>
+            options.UseSqlite(postConnectionString));
     }
 }

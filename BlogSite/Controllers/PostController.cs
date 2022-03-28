@@ -9,9 +9,9 @@ namespace BlogSite.Controllers
 {
     public class PostController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly PostDbContext _context;
 
-        public PostController(ApplicationDbContext context)
+        public PostController(PostDbContext context)
         {
             _context = context;
         }
