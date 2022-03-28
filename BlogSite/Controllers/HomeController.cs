@@ -38,10 +38,10 @@ public class HomeController : Controller, IHomeController
         {
             var searchString = HttpContext.Request.Query["search"];
             var posts = _context.Posts.Where(s => s.Title.Contains(searchString));
-            return View(posts.ToList());
+            return View(posts.ToList().GetRange(0, Math.Min(posts.Count(), 10)));
         }
 
-        return View(_context.Posts.ToList());
+        return View(_context.Posts.ToList().GetRange(0, Math.Min(_context.Posts.Count(), 10)));
     }
 
     public IActionResult Privacy()
