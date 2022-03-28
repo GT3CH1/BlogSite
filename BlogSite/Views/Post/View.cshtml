@@ -1,5 +1,4 @@
-﻿@page
-@model Posts
+﻿@model Posts
 @{
     ViewData["Title"] = Model.Title;
     Layout = "_Layout";
@@ -13,19 +12,14 @@
 </head>
 <body >
 <div class="w3-row">
-    <div class="w3-container w3-quarter w3-mobile" style="width:12.5vw"></div>
-    <div class="w3-threequarter w3-mobile w3-container ">
-        <br/>
-        <h2>@Model.Title</h2>
-        <br/>
-        <hr/>
-        <br/>
-        <div class="w3-mobile ">
-            @Html.Raw(Model.Content)
-        </div>
+    <br/>
+    <h1>@Model.Title</h1>
+    <hr/>
+    <div class="w3-mobile w3-large">
+        @Html.Raw(Model.Content)
     </div>
-    <div class="w3-container w3-quarter w3-mobile" style="width:12.5vw"></div>
 </div>
+
 </body>
 <br/>
 <br/>
