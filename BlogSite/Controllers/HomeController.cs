@@ -18,8 +18,29 @@ public class HomeController : Controller, IHomeController
         ;
     }
 
+    public IActionResult Index(string searchString)
+    {
+        var posts = from p in _context.Posts
+            select p;
+
+        if (!string.IsNullOrEmpty(searchString))
+        {
+            posts = posts.Where(s => s.Title.Contains(searchString));
+        }
+
+        return View(posts.ToList());
+    }
+
+    [HttpGet]
     public IActionResult Index()
     {
+        if (!String.IsNullOrEmpty(HttpContext.Request.Query["search"]))
+        {
+            var searchString = HttpContext.Request.Query["search"];
+            var posts = _context.Posts.Where(s => s.Title.Contains(searchString));
+            return View(posts.ToList());
+        }
+
         return View(_context.Posts.ToList());
     }
 
