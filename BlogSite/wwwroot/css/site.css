@@ -48,5 +48,5 @@ img {
 
 .post {
     display: inline-block;
-    line-break: anywhere;
+    line-break: auto;
 }
