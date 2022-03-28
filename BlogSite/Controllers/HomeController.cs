@@ -67,7 +67,7 @@ public class HomeController : Controller, IHomeController
     /// <returns></returns>
     public static string StripHtmlTags(string html)
     {
-        var noHtmlTags = Regex.Replace(html, "<.*?>", string.Empty);
+        var noHtmlTags = Regex.Replace(html, "<[^>]*>*", string.Empty);
         return Regex.Replace(noHtmlTags, "&.*?;", string.Empty);
     }
 }
