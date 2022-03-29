@@ -17,20 +17,20 @@
         Model.Reverse();
         @foreach (var post in Model)
         {
-            <div class="w3-panel w3-card-2 w3-moble w3-round-large w3-white w3-padding-16 w3-left w3-col w3-cell-middle w3-rest post w3-animate-zoom">
-                <div style="max-width: 500px;">
-                    <a href="Post/View/@post.Id" class="no-ul w3-text-black w3-large w3-button w3-hover-blue-gray title">
+            <a href="Post/View/@post.Id" class="no-ul">
+                <div class="w3-panel w3-card-2 w3-moble w3-round-large w3-white w3-padding-16 w3-left w3-col w3-cell-middle w3-rest post w3-animate-zoom">
+                    <div style="max-width: 500px;">
                         <h3>@post.Title</h3>
-                    </a>
+                    </div>
+                    <hr/>
+                    <br/>
+                    <span class="w3-left w3-medium w3-margin-left">
+                        @HomeController.StripHtmlTags(post.Content.Substring(0, Math.Min(post.Content.Length, 500)))
+                    </span>
+                    <br/>
+                    <br/>
                 </div>
-                <hr/>
-                <br/>
-                <span class="w3-left w3-medium w3-text-gray w3-margin-left">
-                    @HomeController.StripHtmlTags(post.Content.Substring(0, Math.Min(post.Content.Length, 500)))
-                </span>
-                <br/>
-                <br/>
-            </div>
+            </a>
         }
     }
 </div>

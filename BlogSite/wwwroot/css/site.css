@@ -49,4 +49,9 @@ img {
 .post {
     display: inline-block;
     line-break: auto;
+    transition: all 0.5s ease;
+}
+
+.post:hover {
+    background-color: #f8f8f8 !important;
 }
