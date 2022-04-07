@@ -31,16 +31,5 @@ jobs:
         with:
           file: BlogSite/Dockerfile
           push: true
-          tags: gcpease/blogsite:latest
-      - name: executing remote ssh commands using password
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.BLOG_HOST }}
-          username: ${{ secrets.BLOG_USERNAME }}
-          key : ${{ secrets.BLOG_KEY }}
-          script: |
-            docker stop blogsite
-            docker rm blogsite
-            docker pull gcpease/blogsite:latest
-            docker run -v ~/blogsite-db:/db -v ~/blogsite-media:/app/Media -dp 80:80 --name blogsite gcpease/blogsite:latest 
+          tags: gcpease/blogsite:latest 
     
