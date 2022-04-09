@@ -1,7 +1,9 @@
-﻿# Gavin's Blog Site
+# Gavin's Blog Site
+
 
 A blog application written in C# and ASP.NET Core.
-
+## Live demo
+[blog.peasenet.com](https://blog.peasenet.com)
 ## Features
 
 - Easy to use and deploy.
