@@ -14,6 +14,11 @@ public class Posts : IPostModel
     /// The title, without any script tags.
     /// </summary>
     private string _title = string.Empty;
+    
+    /// <summary>
+    /// Whether this post is a draft
+    /// </summary>
+    public bool IsDraft { get; set; }
 
     public string Title
     {
@@ -44,17 +49,20 @@ public class Posts : IPostModel
         }
     }
 
-    public Posts(string title, string content, int id)
+    public Posts(string title, string content, int id, bool isDraft)
     {
         Title = title;
         Content = content;
         Id = id;
+        IsDraft = isDraft;
     }
 
-    public Posts(string title, string content)
+
+    public Posts(string title, string content, bool isDraft = false)
     {
         Title = title;
         Content = content;
+        IsDraft = isDraft;
     }
 
     public Posts()

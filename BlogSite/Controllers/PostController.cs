@@ -37,7 +37,11 @@ namespace BlogSite.Controllers
             {
                 return NotFound();
             }
-
+            // Check if the post is not a draft, and the user is not an admin
+            if (postModel.IsDraft && !User.IsInRole("Admin"))
+            {
+                return NotFound();
+            }
             ViewData.Model = postModel;
             return View(postModel);
         }
@@ -55,7 +59,7 @@ namespace BlogSite.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Create([Bind("Title,Content")] Posts posts)
+        public async Task<IActionResult> Create([Bind("Title,Content,IsDraft")] Posts posts)
         {
             if (ModelState.IsValid)
             {
@@ -91,7 +95,7 @@ namespace BlogSite.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Content")] Posts posts)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Content,IsDraft")] Posts posts)
         {
             if (id != posts.Id)
             {

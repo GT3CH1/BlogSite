@@ -2,10 +2,12 @@
 @{
     var title = "A really cool title.";
     var content = "Some awesome content";
+    var isDraft = true;
     if (Model is not null)
     {
         title = Model.Title;
         content = Model.Content;
+        isDraft = Model.IsDraft;
     }
 }
 
@@ -97,7 +99,7 @@
 </head>
 <body>
 <div class="w3-container">
-    <form method="POST">
+    <form metªhod="POST">
         <div class="w3-row w3-padding-small">
             <input type="text" name="title" style="width:100%" value="@title">
         </div>
@@ -106,7 +108,9 @@
 				@content
             </textarea>
         </div>
-        &nbsp;<input type="submit" class="w3-button w3-blue "></input>
+        &nbsp;<input type="submit" class="w3-button w3-blue w3-round-medium"></input>
+        <label class="w3-margin-left"> Draft? </label>
+        <input type="checkbox" class="w3-check" name="IsDraft" value="true" @(isDraft ? "checked" : "")>
         <br/>
         <br/>
     </form>

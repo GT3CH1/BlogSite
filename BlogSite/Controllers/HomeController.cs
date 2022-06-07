@@ -27,6 +27,9 @@ public class HomeController : Controller, IHomeController
         {
             // Normalize the search string
             posts = posts.Where(s => s.Title.ToUpper().Contains(searchString.ToUpper()));
+            // If the user is not an Admin, remove the posts that are not published
+            if (!User.IsInRole("Admin"))
+                posts = posts.Where(p => !p.IsDraft);
         }
 
         return View(posts.ToList());
@@ -43,10 +46,26 @@ public class HomeController : Controller, IHomeController
             // Also append the results of searching the content
             var postsByContent = _context.Posts.Where(s => s.Content.ToLower().Contains(searchString.ToLower()));
             var allPosts = postsByTitle.Union(postsByContent);
+            // Check if the user is in the Admin group, if they are not, remove all posts that are drafts
+            if (!User.IsInRole("Admin"))
+            {
+                allPosts = allPosts.Where(s => !s.IsDraft);
+            }
+
             return View(allPosts.ToList().GetRange(0, Math.Min(allPosts.Count(), 10)));
         }
 
-        return View(_context.Posts.ToList().GetRange(0, Math.Min(_context.Posts.Count(), 10)));
+        // Check if the user is in the Admin group, if they are not, remove all posts that are drafts
+        if (!User.IsInRole("Admin"))
+        {
+            var posts = _context.Posts.Where(s => !s.IsDraft);
+            return View(posts.ToList().GetRange(0, Math.Min(posts.Count(), 10)));
+        }
+        else
+        {
+            var posts = _context.Posts;
+            return View(posts.ToList().GetRange(0, Math.Min(posts.Count(), 10)));
+        }
     }
 
     public IActionResult Privacy()
