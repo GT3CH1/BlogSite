@@ -353,3 +353,4 @@ MigrationBackup/
 **/*.db-wal
 **/*.db-shm
 **/*.db
+**/lib

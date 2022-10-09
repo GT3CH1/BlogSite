@@ -9,6 +9,7 @@
         content = Model.Content;
         isDraft = Model.IsDraft;
     }
+    ViewData["Title"] = title;
 }
 <!--
 * Copyright (c) 2022. Gavin Pease.
@@ -29,109 +30,22 @@
 * OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 * OTHER DEALINGS IN THE SOFTWARE.
 -->
-<!DOCTYPE html>
 
-<html>
-<head>
-    <title>@title</title>
-    <script src="https://cdn.tiny.cloud/1/9iriah77b698mbblw03a4u3h3v2bby42y5r7w49r6byrwjqg/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
-    <style>
-	    *{
-	    	margin: 0px !important;
-	    }
-    </style>
-    <script>
-    			tinymce.init({
-    			    height: 600,
-    				selector: 'textarea',
-    			    plugins: 'autosave image codesample lists link autolink code hr',
-    				toolbar: 'undo redo | bold italic underline forecolor removeformat | fontselect fontsizeselect formatselect | alignleft aligncenter alignright | image codesample numlist bullist insert link | hr restoredraft',
-    			    toolbar_drawer: 'floating',
-    			    autosave_ask_before_unload: false,
-    				autosave_restore_when_empty: true,
-                    paste_as_text: true,
-                    paste_enable_default_filters: false,
-    				default_link_target: "_blank",
-    				browser_spellcheck : true,
-    				convert_urls: false,
-                    images_upload_url: '/Image/UploadImage',
-                    codesample_global_prismjs: true,
-					codesample_languages: [
-						{ text: 'HTML/XML', value: 'markup' },
-						{ text: 'JavaScript', value: 'javascript' },
-						{ text: 'CSS', value: 'css' },
-						{ text: 'PHP', value: 'php' },
-						{ text: 'Bash', value: 'bash' },
-						{ text: 'Python', value: 'python' },
-						{ text: 'Java', value: 'java' },
-						{ text: 'C', value: 'c' },
-						{ text: 'C#', value: 'csharp' },
-						{ text: 'C++', value: 'cpp' },
-						{ text: 'SQL', value: 'sql' },
-						{ text: 'LaTeX', value: 'latex'},
-						{ text: 'Markdown', value: 'markdown' },
-						{ text: 'XML', value: 'xml' },
-						{ text: 'Powershell', value: 'powershell' },
-						{ text: 'YAML', value: 'yaml' },
-						{ text: 'Dockerfile', value: 'dockerfile' },
-						{ text: 'JSON', value: 'json' }
-					  ],
-					codesample_content_css: "/css/prism.css",
-
-                    images_upload_handler: function (blobInfo, success, failure) {
-						// jsonToPost={'fileData':blobInfo.base64()};
-						// $.ajax({
-						// 	type: "POST",
-						// 	url: "/Posts/UploadImage",
-						// 	data: jsonToPost,
-						// 	success: success.location,
-    					// 	contentType: "multipart/form-data"
-						// });
-                        var xhr, formData;
-                        xhr = new XMLHttpRequest();
-                        xhr.withCredentials = false;
-                        xhr.open('POST', '/Image/UploadImage');
-                        xhr.onload = function() {
-                            var json;
-                            if (xhr.status != 200) {
-                                failure('HTTP Error: ' + xhr.status);
-                                console.error(xhr.responseText);
-                                return;
-                            }
-                            json = JSON.parse(xhr.responseText);
-                            if (!json || typeof json.location != 'string') {
-                                failure('Invalid JSON: ' + xhr.responseText);
-                                console.error(xhr.responseText);
-                                return;
-                            }
-                            success(json.location);
-                        };
-						formData = new FormData();
-						formData.append('fileData', blobInfo.base64());
-						formData.append('fileName',blobInfo.filename());
-						xhr.send(formData);
-                    },
-    			});
-    		</script>
-
-</head>
-<body>
 <div class="w3-container">
     <form method="POST">
         <div class="w3-row w3-padding-small">
-            <input type="text" name="title" style="width:100%" value="@title">
+            <input asp-for="Title" type="text" style="width:100%">
         </div>
         <div class="w3-row w3-padding-small">
-            <textarea name="content" style="width:100%;">
-				@content
+            @* <link href="/css/prism.css" rel="stylesheet" type="text/css" /> *@
+            <script src="/js/prism.js" data-manual></script>
+            <textarea id="content" asp-for="Content">
             </textarea>
         </div>
-        &nbsp;<input type="submit" class="w3-button w3-blue w3-round-medium"></input>
+        <input type="submit" class="w3-button w3-blue w3-round-medium" value="Submit"></input>
         <label class="w3-margin-left"> Draft? </label>
-        <input type="checkbox" class="w3-check" name="IsDraft" value="true" @(isDraft ? "checked" : "")>
+        <input type="checkbox" class="w3-check" asp-for="IsDraft">
         <br/>
         <br/>
     </form>
 </div>
-</body>
-</html>

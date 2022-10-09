@@ -18,8 +18,8 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-using BlogSite;
 using BlogSite.Data;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging.Abstractions;
 
@@ -27,29 +27,28 @@ var builder = WebApplication.CreateBuilder(args);
 ILogger logger = NullLogger.Instance;
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 var postConnectionString = builder.Configuration.GetConnectionString("PostDatabase");
-Startup.SetupDatabase(builder, connectionString, postConnectionString);
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("RequireAdministratorRole", policy => policy.RequireRole("Administrator"));
-});
-builder.Services.AddControllersWithViews();
 
+builder.Services
+    .AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>();
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlite(connectionString));
+builder.Services.AddDbContext<PostDbContext>(options =>
+    options.UseSqlite(postConnectionString));
+
+builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+builder.Services.AddControllersWithViews();
 builder.Services.AddLogging();
 var app = builder.Build();
-// PostDatabaseController.Context = app.Services.GetService<ApplicationDbContext>();
+
 using (var scope = app.Services.CreateScope())
 {
-    var dbContext = scope.ServiceProvider.GetService<ApplicationDbContext>();
-    dbContext.Database.Migrate();
-    var postDb = scope.ServiceProvider.GetService<PostDbContext>();
-    postDb.Database.Migrate();
-    Startup.CreateAdminRoles(Startup.GetRoleManager(dbContext));
-    var userList = builder.Configuration.GetSection("Administrators").GetChildren();
-    var adminUsers = new List<string>();
-    foreach (var user in userList)
-        adminUsers.Add(user.Value);
-    await Startup.AddAdminsToAdminRole(adminUsers, Startup.GetUserManager(dbContext));
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    var um = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+    var rm = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    await db.InitializeUsers(um, rm);
 }
 
 // Configure the HTTP request pipeline.

@@ -18,6 +18,7 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,5 +29,26 @@ public class ApplicationDbContext : IdentityDbContext
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
+        Database.Migrate();
+    }
+
+    public async Task InitializeUsers(UserManager<IdentityUser> um, RoleManager<IdentityRole> rm)
+    {
+        var adminRole = new IdentityRole("Admin");
+
+        if (await um.Users.AnyAsync())
+            return;
+        // seed the db. 
+
+        var admin = new IdentityUser
+        {
+            UserName = "admin@admin.com",
+            Email = "admin@admin.com",
+            EmailConfirmed = true
+        };
+
+        await um.CreateAsync(admin, "Admin123!");
+        await rm.CreateAsync(adminRole);
+        await um.AddToRoleAsync(admin, "Admin");
     }
 }
