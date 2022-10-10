@@ -1,7 +1,48 @@
-﻿tinymce.init({
+﻿const example_image_upload_handler = (blobInfo, progress) => new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.withCredentials = false;
+    xhr.open('POST', '/Image/Upload');
+
+    xhr.upload.onprogress = (e) => {
+        progress(e.loaded / e.total * 100);
+    };
+
+    xhr.onload = () => {
+        if (xhr.status === 403) {
+            reject({message: 'HTTP Error: ' + xhr.status, remove: true});
+            return;
+        }
+
+        if (xhr.status < 200 || xhr.status >= 300) {
+            reject('HTTP Error: ' + xhr.status);
+            return;
+        }
+
+        const json = JSON.parse(xhr.responseText);
+
+        if (!json || typeof json.location != 'string') {
+            reject('Invalid JSON: ' + xhr.responseText);
+            return;
+        }
+
+        resolve(json.location);
+    };
+
+    xhr.onerror = () => {
+        reject('Image upload failed due to a XHR Transport error. Code: ' + xhr.status);
+    };
+
+    const formData = new FormData();
+    formData.append('files', blobInfo.blob(), blobInfo.filename());
+
+    xhr.send(formData);
+});
+
+
+tinymce.init({
     height: 600,
     selector: 'textarea',
-    plugins: 'autosave image codesample lists link autolink code hr',
+    plugins: 'autosave image imagetools codesample lists link autolink code hr',
     toolbar: 'undo redo | bold italic underline forecolor removeformat | fontselect fontsizeselect formatselect | alignleft aligncenter alignright | image codesample numlist bullist insert link | hr restoredraft',
     toolbar_drawer: 'floating',
     autosave_ask_before_unload: false,
@@ -40,29 +81,5 @@
         '/css/codeformat.css'
     ],
 
-    images_upload_handler: function (blobInfo, success, failure) {
-        var xhr, formData;
-        xhr = new XMLHttpRequest();
-        xhr.withCredentials = false;
-        xhr.open('POST', '/Image/UploadImage');
-        xhr.onload = function () {
-            var json;
-            if (xhr.status != 200) {
-                failure('HTTP Error: ' + xhr.status);
-                console.error(xhr.responseText);
-                return;
-            }
-            json = JSON.parse(xhr.responseText);
-            if (!json || typeof json.location != 'string') {
-                failure('Invalid JSON: ' + xhr.responseText);
-                console.error(xhr.responseText);
-                return;
-            }
-            success(json.location);
-        };
-        formData = new FormData();
-        formData.append('fileData', blobInfo.base64());
-        formData.append('fileName', blobInfo.filename());
-        xhr.send(formData);
-    },
+    images_upload_handler: example_image_upload_handler
 });

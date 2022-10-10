@@ -35,7 +35,7 @@ public interface IImageController
     /// </summary>
     /// <param name="imageName"></param>
     /// <returns></returns>
-    public IActionResult GetImage(string imageName);
+    public IActionResult Get(string imageName);
 
     /// <summary>
     /// Uploads the image to the server.
@@ -43,5 +43,5 @@ public interface IImageController
     /// <param name="fileData">The base64 encoded version of the image.</param>
     /// <param name="fileName">The name of the image.</param>
     /// <returns></returns>
-    public string UploadImage(string fileData, string fileName);
+    public Task<IActionResult> Upload(List<IFormFile> files);
 }

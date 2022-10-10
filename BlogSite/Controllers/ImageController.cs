@@ -18,60 +18,81 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-using BlogSite.Models;
-using BlogSite.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace BlogSite.Controllers;
 
 public class ImageController : Controller, IImageController
 {
+    private readonly IConfiguration _config;
+
+    public ImageController(IConfiguration config)
+    {
+        _config = config;
+    }
+
     public IActionResult Index()
     {
         throw new NotImplementedException();
     }
 
-    [Route("/Image/Get/{imageName}")]
+    [Route("/Image/{imageName}")]
     [HttpGet]
-    public IActionResult GetImage(string imageName)
+    public IActionResult Get(string imageName)
     {
-        // Get current directory
-        var currentDirectory = Directory.GetCurrentDirectory();
-        // Add Media path to current directory
-        var mediaPath = Path.GetFullPath(Path.Combine(currentDirectory, "Media", imageName));
-        // Check if file exists
-        if (System.IO.File.Exists(mediaPath))
-        {
-            // Return file
-            return PhysicalFile(mediaPath, "image/jpeg");
-        }
-        else
-        {
-            // Return default image
-            return PhysicalFile(Path.GetFullPath(Path.Combine(currentDirectory, "Media", "default.jpg")), "image/jpeg");
-        }
+        // Get the image from _config["MediaPath"] + imageName
+        // Return the image
+
+        var mediaPath = _config["MediaPath"];
+        // combine the media path with the image name
+        var imagePath = Path.Combine(mediaPath, imageName);
+        var image = System.IO.File.OpenRead(imagePath);
+        // check if image is null
+        if (image == null)
+            return NotFound();
+        return File(image, "image/jpeg");
     }
 
-
-    [Route("/Image/UploadImage")]
-    [HttpPost]
-    [Authorize(Roles = "Admin")]
-    public string UploadImage(string fileData, string fileName)
+    public async Task<IActionResult> Upload(List<IFormFile> files)
     {
-        //Create new PhotoService
-        var photoService = new PhotoService();
-        string filePath;
-        // Upload filedata using photoService
-        var result = photoService.Upload(fileData, fileName, out filePath);
-        // Create new location object.
-        var location = new ImageLocation
+        var mediaPath = _config["MediaPath"];
+        // ensure the media path exists
+        if (!Directory.Exists(mediaPath))
         {
-            ImagePath = filePath
-        };
-        // Return result as json 
-        var res = JsonConvert.SerializeObject(location);
-        return res;
+            Directory.CreateDirectory(mediaPath);
+        }
+
+        // make sure we have files
+        if (files == null || files.Count == 0)
+        {
+            return BadRequest();
+        }
+
+        var file = files[0];
+        // ensure that the file is an image
+        if (!file.ContentType.StartsWith("image/"))
+        {
+            return BadRequest();
+        }
+
+        // get new randomly generated file name
+        var fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+        // while exists, generate new name
+        while (System.IO.File.Exists(Path.Combine(mediaPath, fileName)))
+        {
+            fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+        }
+
+        // save the file
+        var fullPath = Path.Combine(mediaPath, fileName);
+        Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
+        using (var fileStream = new FileStream(fullPath, FileMode.Create))
+        {
+            await files[0].CopyToAsync(fileStream);
+        }
+
+        // return new url for the image
+        var serverName = Request.Host.Value;
+        return Ok(new { location = $"/Image/{fileName}" });
     }
 }
