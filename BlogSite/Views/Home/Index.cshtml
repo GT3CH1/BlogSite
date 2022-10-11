@@ -25,19 +25,21 @@
     var data = (string)ViewBag.search;
     var searchValue = (data == null) ? string.Empty : data;
 }
-<div class="w3-row w3-margin">
-    <div>
+<div class="mx-0 row">
+    <div class="mb-4">
         <form href="/">
-            <input type="text" class="w3-input w3-border w3-round w3-threequarter" name="search" id="search" placeholder="Search..." value="@searchValue"/>
-            <input type="submit" class="w3-button w3-blue w3-round w3-right w3-mobile" id="searchButton" value="Search"/>
+            <div class="row">
+                <input type="submit" class="btn btn-secondary col-md-2" id="searchButton" value="Search"/>
+                <input type="text" class="col-md-10" name="search" id="search" placeholder="Search..." value="@searchValue"/>
+            </div>
         </form>
     </div>
     @{
         Model.Reverse();
         @foreach (var post in Model)
         {
-            <a href="Post/View/@post.Id" class="no-ul">
-                <div class="w3-panel w3-card-2 w3-moble w3-round-large w3-white w3-padding-16 w3-left w3-col w3-cell-middle w3-rest post w3-animate-zoom">
+            <div class="col-md-12 rounded card p-4">
+                <a href="Post/View/@post.Id" class="no-ul text-black">
                     <div style="max-width: 500px;">
                         <h3>@post.Title</h3>
                     </div>
@@ -48,8 +50,8 @@
                     </span>
                     <br/>
                     <br/>
-                </div>
-            </a>
+                </a>
+            </div>
         }
     }
 </div>

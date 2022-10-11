@@ -38,36 +38,46 @@ public class Posts : IPostModel
     /// <summary>
     /// Whether this post is a draft
     /// </summary>
+    [Required]
+    [Display(Name = "Draft?")]
     public bool IsDraft { get; set; }
 
+    [Required]
+    [Display(Name = "Title")]
     public string Title
     {
         get => _title;
         set
         {
             _title = value;
+            if (value == null)
+                _title = "";
             _title = _title.Replace("script", "");
             _title = _title.Replace("onload", "");
             _title = _title.Replace("onerror", "");
         }
-    }
+        }
 
     /// <summary>
     /// The content without any script tags.
     /// </summary>
     private string _content = string.Empty;
 
+    [Required]
+    [Display(Name="Content")]
     public string Content
     {
         get => _content;
         set
         {
             _content = value;
+            if(value == null)
+                _content = "";
             _content = _content.Replace("script", "");
             _title = _title.Replace("onload", "");
             _title = _title.Replace("onerror", "");
         }
-    }
+    } 
 
     public Posts(string title, string content, int id, bool isDraft)
     {

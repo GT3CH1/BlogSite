@@ -19,12 +19,13 @@
         <PackageReference Include="MySql.Data" Version="8.0.28" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
         <PackageReference Include="System.Data.SQLite" Version="1.0.115.5" />
-        <PackageReference Include="TinyMCE" Version="6.2.0"/>
+        <PackageReference Include="TinyMCE" Version="6.2.0" />
     </ItemGroup>
 
     <ItemGroup>
       <Folder Include="Media" />
-        <Folder Include="Services"/>
+      <Folder Include="Pages" />
+        <Folder Include="Services" />
     </ItemGroup>
 
 </Project>

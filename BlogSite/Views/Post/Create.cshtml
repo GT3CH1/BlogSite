@@ -24,4 +24,14 @@
     Layout = "_Layout";
     ViewData["Title"] = "Create a new post";
 }
+@section Scripts {
+    <script src="/lib/tinymce/tinymce.js" referrerpolicy="origin"></script>
+    <script src="/js/edit.js"></script>
+}
+
+@section Styles
+{
+    <link href="/css/prism.css" rel="stylesheet" type="text/css"/>
+}
+
 <partial name="_EditPostPartial"/>

@@ -23,7 +23,9 @@
 * OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 * OTHER DEALINGS IN THE SOFTWARE.
 -->
-
+@{
+    var isAdmin = User.IsInRole("Admin");
+}
 @section Scripts {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.12/clipboard.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.27.0/plugins/autoloader/prism-autoloader.min.js" integrity="sha512-GP4x8UWxWyh4BMbyJGOGneiTbkrWEF5izsVJByzVLodP8CuJH/n936+yQDMJJrOPUHLgyPbLiGw2rXmdvGdXHA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -37,11 +39,21 @@
 
 <!DOCTYPE html>
 
-<div class="w3-row w3-animate-opacity">
+<div class="row ">
     <br/>
     <h1>@Model.Title</h1>
     <hr/>
-    <div class="w3-mobile w3-large">
+    <div class="col-md-12">
         @Html.Raw(Model.Content)
+    </div>
+    <hr/>
+    <div>
+        @{
+            if (isAdmin)
+            {
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+                <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+            }
+        }
     </div>
 </div>

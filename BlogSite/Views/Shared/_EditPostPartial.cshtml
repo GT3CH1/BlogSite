@@ -30,20 +30,23 @@
 * OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 * OTHER DEALINGS IN THE SOFTWARE.
 -->
-
 <div class="w3-container">
     <form method="POST">
-        <div class="w3-row w3-padding-small">
-            <input asp-for="Title" type="text" style="width:100%">
+        <div class="pt-md-2">
+            <label asp-for="Title" class="form-label"></label>
+            <input asp-for="Title" type="text" placeholder="A super cool title." class="form-control" style="width:100%">
+            <span asp-validation-for="Title" class="text-danger"></span>
         </div>
-        <div class="w3-row w3-padding-small">
-            @* <link href="/css/prism.css" rel="stylesheet" type="text/css" /> *@
-            <textarea id="content" asp-for="Content">
-            </textarea>
+        <div class="pt-md-2">
+            <label asp-for="Content" class="form-label"></label>
+            <textarea asp-for="Content" class="form-control"></textarea>
+            <span asp-validation-for="Content" class="text-danger"></span>
         </div>
-        <input type="submit" class="w3-button w3-blue w3-round-medium" value="Submit"></input>
-        <label class="w3-margin-left"> Draft? </label>
-        <input type="checkbox" class="w3-check" asp-for="IsDraft">
+        <div class="form-check form-switch">
+            <label asp-for="IsDraft" class="form-check-label"></label>
+            <input type="checkbox" class="form-check-input" asp-for="IsDraft">
+        </div>
+        <input type="submit" class="btn btn-primary" value="Submit"></input>
         <br/>
         <br/>
     </form>

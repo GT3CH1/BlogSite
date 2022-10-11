@@ -29,7 +29,11 @@ public class ApplicationDbContext : IdentityDbContext
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
-        Database.Migrate();
+    }
+
+    public async Task InitializeDatabaseAsync()
+    {
+        await Database.MigrateAsync();
     }
 
     public async Task InitializeUsers(UserManager<IdentityUser> um, RoleManager<IdentityRole> rm)
@@ -42,9 +46,9 @@ public class ApplicationDbContext : IdentityDbContext
 
         var admin = new IdentityUser
         {
-            UserName = "admin@admin.com",
+            UserName = "Admin",
             Email = "admin@admin.com",
-            EmailConfirmed = true
+            EmailConfirmed = true,
         };
 
         await um.CreateAsync(admin, "Admin123!");

@@ -79,7 +79,9 @@ public class HomeController : Controller, IHomeController
         if (!User.IsInRole("Admin"))
         {
             var posts = _context.Posts.Where(s => !s.IsDraft);
-            return View(posts.ToList().GetRange(0, Math.Min(posts.Count(), 10)));
+            if(posts.Count() > 0)
+                return View(posts.ToList().GetRange(0, Math.Min(posts.Count(), 10)));
+            return View(new List<Posts>());
         }
         else
         {

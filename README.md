@@ -52,18 +52,13 @@ This will create a few files on startup - app.db, posts.db, and a "Media" direct
 
 #### Adding an admin user
 
-At this present moment, there is two roles - an Admin role which allows users to post, and a default role. To create an
-admin user, first create a user using the website itself (naviage to the login page, create a user there.)
-After this is done, you can add the email that was used for the account to the "Administartors" list in the file
-`appsettings.json`. By default, the user with the email `email@email.com` will be granted administrator rights
-on the next startup of the program. You will need to reboot the application after adding an administrator.
-```json
-...
-"Administrators": [
-      "email@email.com"
-    ]
-...
+At this present moment, there is two roles - an Admin role which allows users to post, and a default role. The 
+administrator user is seeded into the database on startup. The default administrator credentials are:
 ```
+Username: admin@admin.com
+Password: Admin123!
+```
+
 #### Docker support
 You can build the application using Docker.
 ```bash

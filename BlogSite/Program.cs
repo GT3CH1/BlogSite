@@ -48,6 +48,7 @@ using (var scope = app.Services.CreateScope())
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     var um = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
     var rm = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    await db.InitializeDatabaseAsync();
     await db.InitializeUsers(um, rm);
 }
 
