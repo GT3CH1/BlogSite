@@ -41,7 +41,7 @@ namespace BlogSite.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
-            return View(new List<Posts>(await _context.Posts.ToListAsync()));
+            return View(new List<Posts>(await _context.Posts.Include("Author").ToListAsync()));
         }
 
         // GET: Post/View/5

@@ -29,6 +29,7 @@
     <thead class="has-background-black">
     <tr>
         <th class="has-text-white">ID</th>
+        <th class="has-text-white">Username</th>
         <th class="has-text-white">Post Name</th>
         <th class="has-text-white">Actions</th>
     </tr>
@@ -39,8 +40,9 @@
         {
             <tr>
                 <td>@p.Id</td>
+                <td>@p.Author.UserName</td>
                 <td>@p.Title</td>
-                <td><a class="no-ul w3-text-deep-orange" href="/Post/Edit/@p.Id">Edit</a>&nbsp;|&nbsp;<a class="no-ul w3-text-red"href="/Post/Delete/@p.Id">Delete</a></td>
+                <td><a class="no-ul is-primary" asp-action="View" asp-route-id="@p.Id">View</a> | <a class="no-ul is-warning" href="/Post/Edit/@p.Id">Edit</a>&nbsp;|&nbsp;<a class="no-ul is-danger"href="/Post/Delete/@p.Id">Delete</a></td>
             </tr>
         }
     }

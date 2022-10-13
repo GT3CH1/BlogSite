@@ -53,8 +53,10 @@
         @{
             if (isAdmin)
             {
-                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
-                <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+                <div class="buttons">
+                    <a asp-action="Edit" asp-route-id="@Model.Id" class="button is-rounded is-warning">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@Model.Id" class="button is-rounded is-danger">Delete</a>
+                </div>
             }
         }
     </div>
