@@ -1,0 +1,48 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+<div class="content">
+    <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+        <h2>Create a new account.</h2>
+        <hr/>
+        <div asp-validation-summary="ModelOnly" class="message is-danger"></div>
+        <div class="field">
+            <label asp-for="Input.Email" class="label"></label>
+            <div class="control has-icons-left">
+                <input asp-for="Input.Email" class="input is-primary" autocomplete="username" aria-required="true"/>
+                <span class="icon is-small is-left">
+                    <i class="fas fa-envelope"></i>
+                </span>
+            </div>
+            <span asp-validation-for="Input.Email" class="message is-danger"></span>
+        </div>
+        <!-- Username field -->
+        <div class="field">
+            <label asp-for="Input.UserName" class="label"></label>
+            <div class="control has-icons-left">
+                <input asp-for="Input.UserName" class="input is-primary" autocomplete="username" aria-required="true"/>
+                <span class="icon is-small is-left">
+                    <i class="fas fa-user"></i>
+                </span>
+            </div>
+            <span asp-validation-for="Input.UserName" class="message is-danger"></span>
+        </div>
+        <div class="field">
+            <label asp-for="Input.Password" class="label"></label>
+            <input asp-for="Input.Password" class="input is-secondary" autocomplete="new-password" aria-required="true"/>
+            <span asp-validation-for="Input.Password" class="message is-danger"></span>
+        </div>
+        <div class="field">
+            <label asp-for="Input.ConfirmPassword" class="label"></label>
+            <input asp-for="Input.ConfirmPassword" class="input is-secondary" autocomplete="new-password" aria-required="true"/>
+            <span asp-validation-for="Input.ConfirmPassword" class="message is-danger"></span>
+        </div>
+        <button id="registerSubmit" type="submit" class="button is-rounded is-primary">Register</button>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial"/>
+}
