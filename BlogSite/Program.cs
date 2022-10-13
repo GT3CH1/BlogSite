@@ -19,6 +19,7 @@
  */
 
 using BlogSite.Data;
+using BlogSite.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -27,7 +28,7 @@ var builder = WebApplication.CreateBuilder(args);
 ILogger logger = NullLogger.Instance;
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services
-    .AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddDefaultIdentity<Poster>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -42,7 +43,7 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    var um = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+    var um = scope.ServiceProvider.GetRequiredService<UserManager<Poster>>();
     var rm = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
     await db.InitializeDatabase();
     await db.InitializeUsers(um, rm);

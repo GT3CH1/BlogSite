@@ -42,8 +42,8 @@ public class HomeController : Controller, IHomeController
     [HttpGet]
     public IActionResult Index()
     {
-        var posts = from p in _context.Posts.Include("Author")
-            select p;
+        // get all posts and include "Author" 
+        var posts = _context.Posts.Include(p => p.Author).ToList();
 
         if (!String.IsNullOrEmpty(HttpContext.Request.Query["search"]))
         {
@@ -65,14 +65,25 @@ public class HomeController : Controller, IHomeController
         // Check if the user is in the Admin group, if they are not, remove all posts that are drafts
         if (!User.IsInRole("Admin"))
         {
-            posts = posts.Where(s => !s.IsDraft);
-            if (posts.Count() > 0)
-                return View(posts.ToList().GetRange(0, Math.Min(posts.Count(), 10)));
+            posts = posts.Select(p => p).Where(p => !p.IsDraft).ToList();
+            // check if posts is empty
+            if (posts.Count() == 0)
+            {
+                return View();
+            }
+
             return View(new List<Posts>());
         }
         else
         {
-            return View(posts.ToList().GetRange(0, Math.Min(posts.Count(), 10)));
+            var list = posts.ToList();
+            if (list.Count() == 0)
+            {
+                return View(new List<Posts>());
+            }
+
+            var range = Math.Min(posts.Count(), 10);
+            return View(list.GetRange(0, range));
         }
     }
 

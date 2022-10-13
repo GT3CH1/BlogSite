@@ -1,0 +1,17 @@
+﻿@{
+    if (ViewData.TryGetValue("ParentLayout", out var parentLayout))
+    {
+        Layout = (string)parentLayout;
+    }
+
+}
+
+<div class="row">
+    <div class="col-md-9">
+        @RenderBody()
+    </div>
+</div>
+
+@section Scripts {
+    @RenderSection("Scripts", required: false)
+}

@@ -1,4 +1,5 @@
 @using Microsoft.AspNetCore.Identity
+@using BlogSite.Areas.Identity.Pages.Account.Manage
 <!--
 * Copyright (c) 2022. Gavin Pease.
 *
@@ -18,13 +19,27 @@
 * OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 * OTHER DEALINGS IN THE SOFTWARE.
 -->
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@inject SignInManager<Poster> SignInManager
+@inject UserManager<Poster> UserManager
 
 @if (SignInManager.IsSignedIn(User))
 {
-    <div class="navbar-item">
-        <a class="navbar-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
+    var user = await UserManager.GetUserAsync(User);
+    <div class="navbar-item has-dropdown is-hoverable">
+        <div class="navbar-link">
+            <span class="icon">
+                <i class="fas fa-user"></i>
+            </span>
+            <span>@user.Name</span>
+        </div>
+        <div class="navbar-dropdown" id="accountDropdown">
+            <!-- make links to all the pages in the /Account/Manage/ folder -->
+            <a class=" navbar-item @ManageNavPages.IndexNavClass(ViewContext)" id="profile" href="/Identity/Account/Manage/Index">Profile</a>
+            <a class=" navbar-item @ManageNavPages.EmailNavClass(ViewContext)" id="email" href="/Identity/Account/Manage/Email">Email</a>
+            <a class=" navbar-item @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password" href="/Identity/Account/Manage/ChangePassword">Password</a>
+            <a class=" navbar-item @ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)" id="two-factor" href="/Identity/Account/Manage/TwoFactorAuthentication">Two-factor authentication</a>
+            <a class=" navbar-item @ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data" href="/Identity/Account/Manage/PersonalData">Personal data</a>
+        </div>
     </div>
     <div class="navbar-item">
         <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">

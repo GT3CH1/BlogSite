@@ -21,7 +21,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using BlogSite.Interfaces;
-using Microsoft.AspNetCore.Identity;
 
 namespace BlogSite.Models;
 
@@ -85,5 +84,5 @@ public class Posts : IPostModel
 
     [Display(Name = "Author")]
     [ForeignKey("AuthorId")]
-    public IdentityUser Author { get; set; }
+    public Poster Author { get; set; }
 }

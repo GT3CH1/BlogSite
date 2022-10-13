@@ -18,13 +18,10 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-using BlogSite.Data;
 using BlogSite.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-
 
 namespace BlogSite.Controllers;
 
@@ -32,10 +29,10 @@ namespace BlogSite.Controllers;
 public class AdminController : Controller
 {
     private readonly IConfiguration _config;
-    private readonly UserManager<IdentityUser> _userManager;
+    private readonly UserManager<Poster> _userManager;
     private readonly ILogger<AdminController> _logger;
 
-    public AdminController(IConfiguration config, UserManager<IdentityUser> userManager, ILogger<AdminController> logger)
+    public AdminController(IConfiguration config, UserManager<Poster> userManager, ILogger<AdminController> logger)
     {
         _config = config;
         _userManager = userManager;
@@ -56,7 +53,7 @@ public class AdminController : Controller
         if (user == null)
         {
             _logger.LogError($"User with id {userId} not found");
-            return Ok(new {success = false, message = $"User with ID = {userId} cannot be found"});
+            return Ok(new { success = false, message = $"User with ID = {userId} cannot be found" });
         }
 
         if (add_remove == "add")
@@ -67,7 +64,8 @@ public class AdminController : Controller
         {
             await _userManager.RemoveFromRoleAsync(user, role);
         }
+
         _logger.Log(LogLevel.Information, $"User {user.UserName} added to {role}");
-        return Ok(new {success = true, message = "Role updated successfully"});
+        return Ok(new { success = true, message = "Role updated successfully" });
     }
 }

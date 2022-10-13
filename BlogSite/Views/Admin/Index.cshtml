@@ -1,5 +1,5 @@
 @using Microsoft.AspNetCore.Identity
-@inject UserManager<IdentityUser> UserManager
+@inject UserManager<Poster> UserManager
 @inject RoleManager<IdentityRole> RoleManager
 @{
     ViewBag.Title = "title";
@@ -32,7 +32,7 @@
         @foreach (var u in UserManager.Users.ToArray())
         {
             <tr>
-                <td>@u.UserName</td>
+                <td>@u.Name</td>
                 <td>@u.Email</td>
                 @foreach (var r in RoleManager.Roles.ToArray())
                 {

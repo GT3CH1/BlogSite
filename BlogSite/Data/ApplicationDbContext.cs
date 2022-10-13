@@ -18,17 +18,18 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
+using BlogSite.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace BlogSite.Data;
 
-public class ApplicationDbContext : IdentityDbContext
+public class ApplicationDbContext : IdentityDbContext<Poster>
 {
     public DbSet<BlogSite.Models.Posts> Posts { get; set; }
 
-    public async Task InitializeUsers(UserManager<IdentityUser> um, RoleManager<IdentityRole> rm)
+    public async Task InitializeUsers(UserManager<Poster> um, RoleManager<IdentityRole> rm)
     {
         var adminRole = new IdentityRole("Admin");
 
@@ -36,10 +37,11 @@ public class ApplicationDbContext : IdentityDbContext
             return;
         // seed the db. 
 
-        var admin = new IdentityUser
+        var admin = new Poster
         {
             UserName = "Admin",
             Email = "admin@admin.com",
+            Name = "Administrator",
             EmailConfirmed = true,
         };
 
