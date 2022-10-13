@@ -23,46 +23,12 @@ html {
     }
 }
 
-html {
-    position: relative;
-    min-height: 100%;
-}
-
 body {
-    margin-bottom: 60px;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
 }
 
-form.form-right-align {
-    display: inline !important;
-}
-
-.container {
-    margin: 0 auto !important;
-}
-
-a.no-ul {
-    text-decoration: none;
-}
-
-img {
-    max-width: 100%;
-    height: auto;
-}
-
-.title {
-    width: 100%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-align: left;
-}
-
-.post {
-    display: inline-block;
-    line-break: auto;
-    transition: all 0.5s ease;
-}
-
-.post:hover {
-    background-color: #f8f8f8 !important;
+#wrapper {
+    flex: 1;
 }

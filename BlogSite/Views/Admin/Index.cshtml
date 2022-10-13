@@ -1,41 +1,52 @@
 @using Microsoft.AspNetCore.Identity
 @inject UserManager<IdentityUser> UserManager
+@inject RoleManager<IdentityRole> RoleManager
 @{
     ViewBag.Title = "title";
     Layout = "_Layout";
 }
+
 @section Styles {
-    <link rel="stylesheet" type="text/css" href="~/css/roles.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/roles.css"/>
 }
+
 @section Scripts
 {
     <script src="/js/role.js"></script>
 }
+
 <form action="/Admin/UpdateRole">
-<table class="w3-table-all">
-    <thead>
-    <tr class="w3-metro-darken">
-        <td>User Name</td>
-        <td>Email</td>
-        <td>Administrator</td>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var u in UserManager.Users.ToArray())
-    {
-        var isAdmin = await UserManager.IsInRoleAsync(u, "Admin");
-        var addRemove = isAdmin ? "remove" : "add";
-        <tr>
-            <td>@u.UserName</td>
-            <td>@u.Email</td>
-            <td>
-                <label class="switch">
-                <input onchange="changeRole('@u.Id','Admin','@addRemove')" type="checkbox" class="w3-radio" @(isAdmin ? "checked" : "")/>
-                <span class="slider round"></span>
-                </label>
-            </td>
+    <table class="table is-bordered is-striped is-fullwidth">
+        <thead class="table-dark">
+        <tr >
+            <th scope="col">User Name</th>
+            <th scope="col">Email</th>
+            @foreach (var r in RoleManager.Roles.ToArray())
+            {
+                <th scope="col">@r.Name</th>
+            }
+
         </tr>
-    }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+        @foreach (var u in UserManager.Users.ToArray())
+        {
+            <tr>
+                <td>@u.UserName</td>
+                <td>@u.Email</td>
+                @foreach (var r in RoleManager.Roles.ToArray())
+                {
+                    var isInRole = await UserManager.IsInRoleAsync(u, r.Name);
+                    var addRemove = isInRole ? "remove" : "add";
+                    <td>
+                        <label class="switch">
+                            <input onchange="changeRole('@u.Id','@r.Name','@addRemove')" type="checkbox" class="switch" @(isInRole ? "checked" : "")/>
+                            <span class="slider round"></span>
+                        </label>
+                    </td>
+                }
+            </tr>
+        }
+        </tbody>
+    </table>
 </form>

@@ -21,25 +21,24 @@
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 
-<ul class="navbar-nav ms-auto">
-    @if (SignInManager.IsSignedIn(User))
-    {
-        <li class="nav-item ml-auto">
-            <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
-        </li>
-        <li class="nav-item ml-auto">
-            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                <button type="submit" class="nav-link btn btn-link" style="border:0px;">Logout</button>
-            </form>
-        </li>
-    }
-    else
-    {
-        <li class="nav-item ml-auto">
-            <a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Register</a>
-        </li>
-        <li class="nav-item ml-auto">
-            <a class="nav-link" asp-area="Identity" asp-page="/Account/Login">Login</a>
-        </li>
-    }
-</ul>
+@if (SignInManager.IsSignedIn(User))
+{
+    <div class="navbar-item">
+        <a class="navbar-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
+    </div>
+    <div class="navbar-item">
+        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+            <button type="submit" class="button is-rounded is-danger" style="border:0px;">Logout</button>
+        </form>
+    </div>
+}
+else
+{
+    <div class="navbar-item">
+
+        <a class="nav-link button is-secondary is-rounded" asp-area="Identity" asp-page="/Account/Register">Register</a>
+    </div>
+    <div class="navbar-item">
+        <a class="nav-link button is-primary is-rounded" asp-area="Identity" asp-page="/Account/Login">Login</a>
+    </div>
+}

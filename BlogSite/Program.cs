@@ -39,7 +39,7 @@ builder.Services.AddDbContext<PostDbContext>(options =>
     options.UseSqlite(postConnectionString));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 builder.Services.AddLogging();
 var app = builder.Build();
 

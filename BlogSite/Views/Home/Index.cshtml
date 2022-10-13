@@ -25,12 +25,24 @@
     var data = (string)ViewBag.search;
     var searchValue = (data == null) ? string.Empty : data;
 }
-<div class="mx-0 row">
+<div class="container">
     <div class="mb-4">
         <form href="/">
-            <div class="row">
-                <input type="submit" class="btn btn-secondary col-md-2" id="searchButton" value="Search"/>
-                <input type="text" class="col-md-10" name="search" id="search" placeholder="Search..." value="@searchValue"/>
+            <div class="columns is-mobile is-gapless">
+                <div class="column is-2 mr-2">
+                    <button type="submit" class="button is-info is-light is-rounded is-fullwidth" id="searchButton" value="Search">
+                        <span class="icon-text">
+                            <span class="icon">
+                                <i class="fas fa-search"></i>
+                            </span>
+                            <span>Search</span>
+                        </span>
+                    </button>
+                </div>
+
+                <div class="column ml-2">
+                    <input type="text" class="input is-primary is-rounded" name="search" id="search" placeholder="Search..." value="@searchValue"/>
+                </div>
             </div>
         </form>
     </div>
@@ -38,18 +50,23 @@
         Model.Reverse();
         @foreach (var post in Model)
         {
-            <div class="col-md-12 rounded card p-4">
+            <div class="mb-4">
                 <a href="Post/View/@post.Id" class="no-ul text-black">
-                    <div style="max-width: 500px;">
-                        <h3>@post.Title</h3>
+                    <div class="card is-rounded">
+                        <div class="card-content">
+                            <div style="max-width: 500px;">
+                                <p class="is-size-3">@post.Title</p>
+                            </div>
+                            <hr/>
+                            <div class="content">
+                                <p class="subtitle">
+                                    @HomeController.StripHtmlTags(post.Content.Substring(0, Math.Min(post.Content.Length, 500)))
+                                </p>
+                            </div>
+                            <br/>
+                            <br/>
+                        </div>
                     </div>
-                    <hr/>
-                    <br/>
-                    <span class="w3-left w3-medium w3-margin-left">
-                        @HomeController.StripHtmlTags(post.Content.Substring(0, Math.Min(post.Content.Length, 500)))
-                    </span>
-                    <br/>
-                    <br/>
                 </a>
             </div>
         }
