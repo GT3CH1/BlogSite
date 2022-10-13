@@ -33,20 +33,28 @@
 <div class="w3-container">
     <form method="POST">
         <div class="pt-md-2">
-            <label asp-for="Title" class="form-label"></label>
-            <input asp-for="Title" type="text" placeholder="A super cool title." class="form-control" style="width:100%">
-            <span asp-validation-for="Title" class="text-danger"></span>
+            <label asp-for="Title" class="label"></label>
+            <input asp-for="Title" type="text" placeholder="A super cool title." class="input" style="width:100%">
+            <span asp-validation-for="Title" class="message is-danger"></span>
         </div>
         <div class="pt-md-2">
-            <label asp-for="Content" class="form-label"></label>
+            <label asp-for="Content" class="label"></label>
             <textarea asp-for="Content" class="form-control"></textarea>
-            <span asp-validation-for="Content" class="text-danger"></span>
+            <span asp-validation-for="Content" class="message is-danger"></span>
         </div>
-        <div class="form-check form-switch">
-            <label asp-for="IsDraft" class="form-check-label"></label>
-            <input type="checkbox" class="form-check-input" asp-for="IsDraft">
+        <div class="field">
+            <div class="checkbox">
+                <label asp-for="IsDraft" class="is-secondary"></label>
+                <input type="checkbox" class="form-check-input" asp-for="IsDraft"/>
+            </div>
         </div>
-        <input type="submit" class="btn btn-primary" value="Submit"></input>
+        <div class="field">
+            <div class="buttons">
+                <input type="submit" class="button is-primary" value="Submit"></input>
+                <a href="/" class="button is-warning">Cancel</a>
+            </div>
+        </div>
+
         <br/>
         <br/>
     </form>

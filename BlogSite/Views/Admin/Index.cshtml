@@ -17,13 +17,13 @@
 
 <form action="/Admin/UpdateRole">
     <table class="table is-bordered is-striped is-fullwidth">
-        <thead class="table-dark">
-        <tr >
-            <th scope="col">User Name</th>
-            <th scope="col">Email</th>
+        <thead class="has-background-black">
+        <tr>
+            <th class="has-text-white">User Name</th>
+            <th class="has-text-white">Email</th>
             @foreach (var r in RoleManager.Roles.ToArray())
             {
-                <th scope="col">@r.Name</th>
+                <th class="has-text-white">@r.Name</th>
             }
 
         </tr>
