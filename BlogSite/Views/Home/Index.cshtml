@@ -54,14 +54,20 @@
                 <a href="Post/View/@post.Id" class="no-ul text-black">
                     <div class="card is-rounded">
                         <div class="card-content">
-                            <div style="max-width: 500px;">
+                            <div>
                                 <p class="is-size-3">@post.Title</p>
                             </div>
-                            <hr/>
+                            <br/>
                             <div class="content">
                                 <p class="subtitle">
                                     @HomeController.StripHtmlTags(post.Content.Substring(0, Math.Min(post.Content.Length, 500)))
                                 </p>
+                            </div>
+                            <br/>
+                            <div class="card-footer">
+                                <div class="mt-4">
+                                    <p>Posted by: @post.Author.UserName</p>
+                                </div>
                             </div>
                             <br/>
                             <br/>

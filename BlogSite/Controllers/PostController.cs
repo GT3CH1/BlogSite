@@ -19,6 +19,7 @@
  */
 
 #nullable disable
+using System.Security.Claims;
 using BlogSite.Data;
 using BlogSite.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -29,9 +30,9 @@ namespace BlogSite.Controllers
 {
     public class PostController : Controller
     {
-        private readonly PostDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public PostController(PostDbContext context)
+        public PostController(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -51,17 +52,19 @@ namespace BlogSite.Controllers
                 return NotFound();
             }
 
-            var postModel = await _context.Posts
+            var postModel = await _context.Posts.Include("Author")
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (postModel == null)
             {
                 return NotFound();
             }
+
             // Check if the post is not a draft, and the user is not an admin
             if (postModel.IsDraft && !User.IsInRole("Admin"))
             {
                 return NotFound();
             }
+
             ViewData.Model = postModel;
             return View(postModel);
         }
@@ -79,16 +82,22 @@ namespace BlogSite.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Create([Bind("Title,Content,IsDraft")] Posts posts)
+        public async Task<IActionResult> Create([Bind("Title,Content,IsDraft,AuthorId")] Posts post)
         {
+            ModelState.Remove("Author");
+            ModelState.Remove("AuthorId");
+            var errors = ModelState.Values.SelectMany(v => v.Errors);
             if (ModelState.IsValid)
             {
-                _context.Add(posts);
+                // get user id
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                post.AuthorId = userId;
+                _context.Add(post);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("View", new { id = posts.Id });
+                return RedirectToAction("View", new { id = post.Id });
             }
 
-            return View(posts);
+            return View(post);
         }
 
         // GET: Post/Edit/5
@@ -115,12 +124,15 @@ namespace BlogSite.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Content,IsDraft")] Posts posts)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Content,IsDraft,AuthorId")] Posts posts)
         {
             if (id != posts.Id)
             {
                 return NotFound();
             }
+
+            var error = ModelState.Values.SelectMany(v => v.Errors);
+            ModelState.Remove("Author");
 
             if (ModelState.IsValid)
             {

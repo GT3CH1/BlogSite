@@ -21,6 +21,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using BlogSite.Interfaces;
+using Microsoft.AspNetCore.Identity;
 
 namespace BlogSite.Models;
 
@@ -34,7 +35,7 @@ public class Posts : IPostModel
     /// The title, without any script tags.
     /// </summary>
     private string _title = string.Empty;
-    
+
     /// <summary>
     /// Whether this post is a draft
     /// </summary>
@@ -44,6 +45,7 @@ public class Posts : IPostModel
 
     [Required]
     [Display(Name = "Title")]
+    [StringLength(80)]
     public string Title
     {
         get => _title;
@@ -56,7 +58,7 @@ public class Posts : IPostModel
             _title = _title.Replace("onload", "");
             _title = _title.Replace("onerror", "");
         }
-        }
+    }
 
     /// <summary>
     /// The content without any script tags.
@@ -64,38 +66,24 @@ public class Posts : IPostModel
     private string _content = string.Empty;
 
     [Required]
-    [Display(Name="Content")]
+    [Display(Name = "Content")]
     public string Content
     {
         get => _content;
         set
         {
             _content = value;
-            if(value == null)
+            if (value == null)
                 _content = "";
             _content = _content.Replace("script", "");
             _title = _title.Replace("onload", "");
             _title = _title.Replace("onerror", "");
         }
-    } 
-
-    public Posts(string title, string content, int id, bool isDraft)
-    {
-        Title = title;
-        Content = content;
-        Id = id;
-        IsDraft = isDraft;
     }
 
+    public string AuthorId { get; set; }
 
-    public Posts(string title, string content, bool isDraft = false)
-    {
-        Title = title;
-        Content = content;
-        IsDraft = isDraft;
-    }
-
-    public Posts()
-    {
-    }
+    [Display(Name = "Author")]
+    [ForeignKey("AuthorId")]
+    public IdentityUser Author { get; set; }
 }

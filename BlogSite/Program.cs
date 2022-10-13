@@ -26,8 +26,6 @@ using Microsoft.Extensions.Logging.Abstractions;
 var builder = WebApplication.CreateBuilder(args);
 ILogger logger = NullLogger.Instance;
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-var postConnectionString = builder.Configuration.GetConnectionString("PostDatabase");
-
 builder.Services
     .AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddRoles<IdentityRole>()
@@ -35,8 +33,6 @@ builder.Services
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(connectionString));
-builder.Services.AddDbContext<PostDbContext>(options =>
-    options.UseSqlite(postConnectionString));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
@@ -48,7 +44,7 @@ using (var scope = app.Services.CreateScope())
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     var um = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
     var rm = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-    await db.InitializeDatabaseAsync();
+    await db.InitializeDatabase();
     await db.InitializeUsers(um, rm);
 }
 

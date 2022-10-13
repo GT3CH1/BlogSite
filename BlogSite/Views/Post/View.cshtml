@@ -26,6 +26,7 @@
 @{
     var isAdmin = User.IsInRole("Admin");
 }
+
 @section Scripts {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.12/clipboard.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.27.0/plugins/autoloader/prism-autoloader.min.js" integrity="sha512-GP4x8UWxWyh4BMbyJGOGneiTbkrWEF5izsVJByzVLodP8CuJH/n936+yQDMJJrOPUHLgyPbLiGw2rXmdvGdXHA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -39,9 +40,10 @@
 
 <!DOCTYPE html>
 
-<div class="row ">
+<div class="row content">
     <br/>
     <h1>@Model.Title</h1>
+    <h3>By: @Model.Author.UserName</h3>
     <hr/>
     <div class="col-md-12">
         @Html.Raw(Model.Content)

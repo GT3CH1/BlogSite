@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (c) 2022. Gavin Pease and contributors.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
@@ -26,15 +26,7 @@ namespace BlogSite.Data;
 
 public class ApplicationDbContext : IdentityDbContext
 {
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-        : base(options)
-    {
-    }
-
-    public async Task InitializeDatabaseAsync()
-    {
-        await Database.MigrateAsync();
-    }
+    public DbSet<BlogSite.Models.Posts> Posts { get; set; }
 
     public async Task InitializeUsers(UserManager<IdentityUser> um, RoleManager<IdentityRole> rm)
     {
@@ -54,5 +46,15 @@ public class ApplicationDbContext : IdentityDbContext
         await um.CreateAsync(admin, "Admin123!");
         await rm.CreateAsync(adminRole);
         await um.AddToRoleAsync(admin, "Admin");
+    }
+
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+    {
+    }
+
+    public async Task InitializeDatabase()
+    {
+        if ((await Database.GetPendingMigrationsAsync()).Any())
+            await Database.MigrateAsync();
     }
 }

@@ -23,48 +23,35 @@ using System.Text.RegularExpressions;
 using BlogSite.Data;
 using BlogSite.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace BlogSite.Controllers;
 
 public class HomeController : Controller, IHomeController
 {
     private readonly ILogger<HomeController> _logger;
-    private PostDbContext _context;
+    private ApplicationDbContext _context;
 
-    public HomeController(ILogger<HomeController> logger, PostDbContext context)
+    public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
     {
         _logger = logger;
         _context = context;
         ;
     }
 
-    public IActionResult Index(string searchString)
-    {
-        var posts = from p in _context.Posts
-            select p;
-
-        if (!string.IsNullOrEmpty(searchString))
-        {
-            // Normalize the search string
-            posts = posts.Where(s => s.Title.ToUpper().Contains(searchString.ToUpper()));
-            // If the user is not an Admin, remove the posts that are not published
-            if (!User.IsInRole("Admin"))
-                posts = posts.Where(p => !p.IsDraft);
-        }
-
-        return View(posts.ToList());
-    }
-
     [HttpGet]
     public IActionResult Index()
     {
+        var posts = from p in _context.Posts.Include("Author")
+            select p;
+
         if (!String.IsNullOrEmpty(HttpContext.Request.Query["search"]))
         {
             string searchString = HttpContext.Request.Query["search"];
             ViewBag.search = searchString;
-            var postsByTitle = _context.Posts.Where(s => s.Title.ToLower().Contains(searchString.ToLower()));
+            var postsByTitle = posts.Where(s => s.Title.ToLower().Contains(searchString.ToLower()));
             // Also append the results of searching the content
-            var postsByContent = _context.Posts.Where(s => s.Content.ToLower().Contains(searchString.ToLower()));
+            var postsByContent = posts.Where(s => s.Content.ToLower().Contains(searchString.ToLower()));
             var allPosts = postsByTitle.Union(postsByContent);
             // Check if the user is in the Admin group, if they are not, remove all posts that are drafts
             if (!User.IsInRole("Admin"))
@@ -78,14 +65,13 @@ public class HomeController : Controller, IHomeController
         // Check if the user is in the Admin group, if they are not, remove all posts that are drafts
         if (!User.IsInRole("Admin"))
         {
-            var posts = _context.Posts.Where(s => !s.IsDraft);
-            if(posts.Count() > 0)
+            posts = posts.Where(s => !s.IsDraft);
+            if (posts.Count() > 0)
                 return View(posts.ToList().GetRange(0, Math.Min(posts.Count(), 10)));
             return View(new List<Posts>());
         }
         else
         {
-            var posts = _context.Posts;
             return View(posts.ToList().GetRange(0, Math.Min(posts.Count(), 10)));
         }
     }

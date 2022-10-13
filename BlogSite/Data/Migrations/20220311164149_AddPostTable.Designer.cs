@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BlogSite.Data.Migrations
 {
-    [DbContext(typeof(PostDbContext))]
+    [DbContext(typeof(ApplicationDbContext))]
     [Migration("20220311164149_AddPostTable")]
     partial class AddPostTable
     {
