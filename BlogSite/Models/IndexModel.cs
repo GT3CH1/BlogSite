@@ -24,5 +24,6 @@ public class IndexModel
 {
     public IndexModel()
     {
+        
     }
 }

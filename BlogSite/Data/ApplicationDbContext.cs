@@ -39,7 +39,7 @@ public class ApplicationDbContext : IdentityDbContext<Poster>
 
         var admin = new Poster
         {
-            UserName = "Admin",
+            UserName = "admin@admin.com",
             Email = "admin@admin.com",
             Name = "Administrator",
             EmailConfirmed = true,

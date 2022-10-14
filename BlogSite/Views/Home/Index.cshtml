@@ -46,7 +46,7 @@
             </div>
         </form>
     </div>
-    @{
+    @if(Model != null){
         Model.Reverse();
         @foreach (var post in Model)
         {
