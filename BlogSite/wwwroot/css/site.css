@@ -23,6 +23,11 @@ html {
     }
 }
 
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+    .mobile {
+        padding: 0px 8px;
+    }
+}
 body {
     display: flex;
     min-height: 100vh;

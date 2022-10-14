@@ -39,7 +39,7 @@
 </head>
 <body>
 <header>
-    <nav class="navbar" role="navigation" aria-label="main navigation">
+    <nav class="navbar is-info" role="navigation" aria-label="main navigation">
         <div class="container">
             <div class="navbar-brand">
                 <a class="navbar-item" href="/">
@@ -53,22 +53,34 @@
             </div>
             <div class="navbar-menu " id="navbar">
                 <div class="navbar-start">
-                    <a class="navbar-item" href="/">
-                        Home
+                    <a class="navbar-item has-icons-left" href="/">
+                        <span class="icon">
+                            <i class="fas fa-home"></i>
+                        </span>
+                        <span>Home</span>
                     </a>
                     @{
                         if (isAdmin)
                         {
                             <div class="navbar-item has-dropdown is-hoverable">
-                                <div class="navbar-link">
-                                    Posts
-                                </div>
-                                <div class="navbar-dropdown" id="navbar">
+                                <a class="navbar-link has-icons-left" role="button" aria-label="menu" aria-expanded="false" data-target="postDropdown">
+                                    <span class="icon">
+                                        <i class="fas fa-edit"></i>
+                                    </span>
+                                    <span>Posts</span>
+                                </a>
+                                <div class="navbar-dropdown" id="postDropdown">
                                     <a class="navbar-item" asp-controller="Post" asp-action="Create">Create Post</a>
                                     <a class="navbar-item" asp-controller="Post" asp-action="Index">View all Posts</a>
                                 </div>
                             </div>
-                            <a class="navbar-link" asp-controller="Admin" asp-action="Index">Admin</a>
+                            <a class="navbar-link" asp-controller="Admin" asp-action="Index">
+                                <span class="icon">
+                                    <i class="fa-solid fa-screwdriver-wrench"></i>
+                                </span>
+                                <span>Admin</span>
+
+                            </a>
                         }
                     }
                 </div>

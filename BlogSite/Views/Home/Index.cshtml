@@ -28,9 +28,9 @@
 <div class="container">
     <div class="mb-4">
         <form href="/">
-            <div class="columns is-mobile is-gapless">
-                <div class="column is-2 mr-2">
-                    <button type="submit" class="button is-info is-light is-rounded is-fullwidth" id="searchButton" value="Search">
+            <div class="columns is-desktop">
+                <div class="column is-2 ">
+                    <button type="submit" class="button is-primary is-rounded is-fullwidth" id="searchButton" value="Search">
                         <span class="icon-text">
                             <span class="icon">
                                 <i class="fas fa-search"></i>
@@ -40,13 +40,14 @@
                     </button>
                 </div>
 
-                <div class="column ml-2">
+                <div class="column">
                     <input type="text" class="input is-primary is-rounded" name="search" id="search" placeholder="Search..." value="@searchValue"/>
                 </div>
             </div>
         </form>
     </div>
-    @if(Model != null){
+    @if (Model != null)
+    {
         Model.Reverse();
         @foreach (var post in Model)
         {

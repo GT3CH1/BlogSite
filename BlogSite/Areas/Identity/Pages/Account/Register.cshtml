@@ -31,12 +31,22 @@
         </div>
         <div class="field">
             <label asp-for="Input.Password" class="label"></label>
-            <input asp-for="Input.Password" class="input is-secondary" autocomplete="new-password" aria-required="true"/>
+            <div class="control has-icons-left">
+                <input asp-for="Input.Password" class="input is-secondary" autocomplete="new-password" aria-required="true"/>
+                <span class="icon is-small is-left">
+                    <i class="fas fa-lock"></i>
+                </span>
+            </div>
             <span asp-validation-for="Input.Password" class="message is-danger"></span>
         </div>
         <div class="field">
             <label asp-for="Input.ConfirmPassword" class="label"></label>
-            <input asp-for="Input.ConfirmPassword" class="input is-secondary" autocomplete="new-password" aria-required="true"/>
+            <div class="control has-icons-left">
+                <input asp-for="Input.ConfirmPassword" class="input is-secondary" autocomplete="new-password" aria-required="true"/>
+                <span class="icon is-small is-left">
+                    <i class="fas fa-lock"></i>
+                </span>
+            </div>
             <span asp-validation-for="Input.ConfirmPassword" class="message is-danger"></span>
         </div>
         <button id="registerSubmit" type="submit" class="button is-rounded is-primary">Register</button>

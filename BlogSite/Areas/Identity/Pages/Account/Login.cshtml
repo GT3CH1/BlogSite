@@ -46,7 +46,12 @@
         <br/>
         <div class="field">
             <label asp-for="Input.Password" class="label"></label>
-            <input asp-for="Input.Password" class="form-control  input" autocomplete="current-password" aria-required="true"/>
+            <div class="control has-icons-left">
+                <input asp-for="Input.Password" class="input" autocomplete="current-password" aria-required="true"/>
+                <span class="icon is-small is-left">
+                    <i class="fas fa-lock"></i>
+                </span>
+            </div>
             <span asp-validation-for="Input.Password" class="text-danger"></span>
         </div>
         <br/>

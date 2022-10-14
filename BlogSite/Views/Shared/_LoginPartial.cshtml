@@ -43,7 +43,12 @@
     </div>
     <div class="navbar-item">
         <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button type="submit" class="button is-rounded is-danger" style="border:0px;">Logout</button>
+            <button type="submit" class="button is-rounded is-danger has-icons-left" style="border:0px;">
+                <span class="icon">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </span>
+                <span>Logout</span>
+            </button>
         </form>
     </div>
 }
@@ -51,9 +56,19 @@ else
 {
     <div class="navbar-item">
 
-        <a class="nav-link button is-secondary is-rounded" asp-area="Identity" asp-page="/Account/Register">Register</a>
+        <a class="nav-link button is-secondary is-rounded has-icons-left" asp-area="Identity" asp-page="/Account/Register">
+            <span class="icon">
+                <i class="fa-solid fa-user-plus"></i>
+            </span>
+            <span>Register</span>
+        </a>
     </div>
     <div class="navbar-item">
-        <a class="nav-link button is-primary is-rounded" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        <a class="nav-link button is-primary is-rounded has-icons-left" asp-area="Identity" asp-page="/Account/Login">
+            <span class="icon">
+                <i class="fa-solid fa-right-from-bracket"></i>
+            </span>
+            <span>Login</span>
+        </a>
     </div>
 }
