@@ -71,8 +71,8 @@ public class HomeController : Controller, IHomeController
             {
                 return View();
             }
-
-            return View(new List<Posts>());
+            var range = Math.Min(posts.Count(), 10);
+            return View(posts.GetRange(0, range));
         }
         else
         {
