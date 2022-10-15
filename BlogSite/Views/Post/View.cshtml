@@ -40,24 +40,25 @@
 
 <!DOCTYPE html>
 
-<div class="row content mobile">
-    <br/>
+<div class="row content box">
     <h1>@Model.Title</h1>
     <h3>By: @Model.Author.Name</h3>
     <hr/>
     <div class="col-md-12">
         @Html.Raw(Model.Content)
     </div>
-    <hr/>
-    <div>
-        @{
-            if (isAdmin)
-            {
-                <div class="buttons">
-                    <a asp-action="Edit" asp-route-id="@Model.Id" class="button is-rounded is-warning">Edit</a>
-                    <a asp-action="Delete" asp-route-id="@Model.Id" class="button is-rounded is-danger">Delete</a>
-                </div>
-            }
-        }
-    </div>
+
 </div>
+<br/>
+<div>
+    @{
+        if (isAdmin)
+        {
+            <div class="buttons">
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="button is-rounded is-warning card">Edit</a>
+                <a asp-action="Delete" asp-route-id="@Model.Id" class="button is-rounded is-danger card">Delete</a>
+            </div>
+        }
+    }
+</div>
+<br/>
