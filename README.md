@@ -42,6 +42,7 @@ This will build the application and place binaries in the BlogSite/bin/Debug/net
 #### Running the application
 
 Running the application is also trivial. Just navigate to the BlogSite directory and run the application.
+Please make sure the edit the `MediaPath` in `appsettings.json` (or what environment you are using) to point to a directory in which you want to store images.
 
 ```bash
 cd BlogSite/bin/Debug/net6.0
