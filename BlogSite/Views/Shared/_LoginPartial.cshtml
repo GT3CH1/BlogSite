@@ -34,11 +34,36 @@
         </div>
         <div class="navbar-dropdown" id="accountDropdown">
             <!-- make links to all the pages in the /Account/Manage/ folder -->
-            <a class=" navbar-item @ManageNavPages.IndexNavClass(ViewContext)" id="profile" href="/Identity/Account/Manage/Index">Profile</a>
-            <a class=" navbar-item @ManageNavPages.EmailNavClass(ViewContext)" id="email" href="/Identity/Account/Manage/Email">Email</a>
-            <a class=" navbar-item @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password" href="/Identity/Account/Manage/ChangePassword">Password</a>
-            <a class=" navbar-item @ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)" id="two-factor" href="/Identity/Account/Manage/TwoFactorAuthentication">Two-factor authentication</a>
-            <a class=" navbar-item @ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data" href="/Identity/Account/Manage/PersonalData">Personal data</a>
+            <a class="has-icons-left navbar-item @ManageNavPages.IndexNavClass(ViewContext)" id="profile" href="/Identity/Account/Manage/Index">
+                <span class="icon">
+                    <i class="fas fa-user"></i>
+                </span>
+                <span>Profile</span>
+            </a>
+            <a class="has-icons-left navbar-item @ManageNavPages.EmailNavClass(ViewContext)" id="email" href="/Identity/Account/Manage/Email">
+                <span class="icon">
+                    <i class="fas fa-envelope"></i>
+                </span>
+                <span>Email</span>
+            </a>
+            <a class="has-icons-left navbar-item @ManageNavPages.ChangePasswordNavClass(ViewContext)" id="change-password" href="/Identity/Account/Manage/ChangePassword">
+                <span class="icon">
+                    <i class="fas fa-lock"></i>
+                </span>
+                <span>Change Password</span>
+            </a>
+            <a class="has-iconsleft navbar-item @ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)" id="two-factor" href="/Identity/Account/Manage/TwoFactorAuthentication">
+                <span class="icon">
+                    <i class="fas fa-key"></i>
+                </span>
+                <span>Two Factor Authentication</span>
+            </a>
+            <a class="has-icons-left navbar-item @ManageNavPages.PersonalDataNavClass(ViewContext)" id="personal-data" href="/Identity/Account/Manage/PersonalData">
+                <span class="icon">
+                    <i class="fas fa-database"></i>
+                </span>
+                <span>Personal Data</span>
+            </a>
         </div>
     </div>
     <div class="navbar-item">
