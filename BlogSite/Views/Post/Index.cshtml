@@ -40,7 +40,7 @@
         {
             <tr>
                 <td>@p.Id</td>
-                <td>@p.Author.UserName</td>
+                <td>@p.Author.Name</td>
                 <td>@p.Title</td>
                 <td><a class="no-ul is-primary" asp-action="View" asp-route-id="@p.Id">View</a> | <a class="no-ul is-warning" href="/Post/Edit/@p.Id">Edit</a>&nbsp;|&nbsp;<a class="no-ul is-danger"href="/Post/Delete/@p.Id">Delete</a></td>
             </tr>
