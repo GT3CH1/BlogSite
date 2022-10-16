@@ -41,7 +41,7 @@ namespace BlogSite.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
-            return View(new List<Posts>(await _context.Posts.Include("Author").ToListAsync()));
+            return View((from post in _context.Posts.Include(p=>p.Author) select post).ToList());
         }
 
         // GET: Post/View/5
@@ -52,8 +52,9 @@ namespace BlogSite.Controllers
                 return NotFound();
             }
 
-            var postModel = await _context.Posts.Include("Author")
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var postModel = (from post in _context.Posts.Include(p=>p.Author)
+                            where post.Id == id
+                            select post).First();
             if (postModel == null)
             {
                 return NotFound();

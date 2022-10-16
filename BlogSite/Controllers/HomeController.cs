@@ -43,7 +43,7 @@ public class HomeController : Controller, IHomeController
     public IActionResult Index()
     {
         // get all posts and include "Author"
-        var posts = _context.Posts.Include(p => p.Author).ToList();
+        var posts = from p in _context.Posts.Include(p => p.Author) select p;
         string searchString = "";
         if (!string.IsNullOrEmpty(HttpContext.Request.Query["search"]))
         {
@@ -52,11 +52,11 @@ public class HomeController : Controller, IHomeController
         }
 
         if (searchString != "")
-            posts = posts.Where(p => p.Title.Contains(searchString) || p.Content.Contains(searchString)).ToList();
+            posts = posts.Where(p => p.Title.Contains(searchString) || p.Content.Contains(searchString));
         if (!User.IsInRole("Admin"))
-            posts = posts.Where(p => p.IsDraft == false).ToList();
+            posts = posts.Where(p => p.IsDraft == false);
         var range = Math.Min(posts.Count(), 10);
-        return View(posts.GetRange(0, range));
+        return View(posts.OrderByDescending(p => p.Id).Take(range).ToList());
     }
 
     public IActionResult Privacy()
