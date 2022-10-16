@@ -42,48 +42,21 @@ public class HomeController : Controller, IHomeController
     [HttpGet]
     public IActionResult Index()
     {
-        // get all posts and include "Author" 
+        // get all posts and include "Author"
         var posts = _context.Posts.Include(p => p.Author).ToList();
-
-        if (!String.IsNullOrEmpty(HttpContext.Request.Query["search"]))
+        string searchString = "";
+        if (!string.IsNullOrEmpty(HttpContext.Request.Query["search"]))
         {
-            string searchString = HttpContext.Request.Query["search"];
+            searchString = HttpContext.Request.Query["search"];
             ViewBag.search = searchString;
-            var postsByTitle = posts.Where(s => s.Title.ToLower().Contains(searchString.ToLower()));
-            // Also append the results of searching the content
-            var postsByContent = posts.Where(s => s.Content.ToLower().Contains(searchString.ToLower()));
-            var allPosts = postsByTitle.Union(postsByContent);
-            // Check if the user is in the Admin group, if they are not, remove all posts that are drafts
-            if (!User.IsInRole("Admin"))
-            {
-                allPosts = allPosts.Where(s => !s.IsDraft);
-            }
-
-            return View(allPosts.ToList().GetRange(0, Math.Min(allPosts.Count(), 10)));
         }
 
-        // Check if the user is in the Admin group, if they are not, remove all posts that are drafts
+        if (searchString != "")
+            posts = posts.Where(p => p.Title.Contains(searchString) || p.Content.Contains(searchString)).ToList();
         if (!User.IsInRole("Admin"))
-        {
-            posts = posts.Select(p => p).Where(p => !p.IsDraft).ToList();
-            // check if posts is empty
-            if (posts.Count() == 0)
-            {
-                return View();
-            }
-            var range = Math.Min(posts.Count(), 10);
-            return View(posts.GetRange(0, range));
-        }
-        else
-        {
-            var list = posts.ToList();
-            if (list.Count() == 0)
-            {
-                return View();
-            }
-            var range = Math.Min(posts.Count(), 10);
-            return View(list.GetRange(0, range));
-        }
+            posts = posts.Where(p => p.IsDraft == false).ToList();
+        var range = Math.Min(posts.Count(), 10);
+        return View(posts.GetRange(0, range));
     }
 
     public IActionResult Privacy()

@@ -83,6 +83,11 @@ public class ImageController : Controller, IImageController
             fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
         }
 
+        if (mediaPath == null)
+        {
+            throw new FileNotFoundException("Media path not found - did you forget to set it?");
+        }
+
         // save the file
         var fullPath = Path.Combine(mediaPath, fileName);
         Directory.CreateDirectory(Path.GetDirectoryName(fullPath));
